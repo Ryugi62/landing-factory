@@ -1,0 +1,77 @@
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { ALL_CONFIGS, getConfigBySlug } from '@/config'
+import { getAccent } from '@/lib/accent'
+import { Hero } from '@/components/sections/Hero'
+import { Problem } from '@/components/sections/Problem'
+import { Features } from '@/components/sections/Features'
+import { Pricing } from '@/components/sections/Pricing'
+import { CtaSection } from '@/components/sections/CtaSection'
+import { Footer } from '@/components/sections/Footer'
+
+type Props = {
+  params: Promise<{ slug: string }>
+}
+
+export async function generateStaticParams() {
+  return ALL_CONFIGS.map((c) => ({ slug: c.slug }))
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const config = getConfigBySlug(slug)
+  if (!config) return {}
+  return {
+    title: config.seo.title,
+    description: config.seo.description,
+    keywords: config.seo.keywords,
+    openGraph: {
+      title: config.seo.title,
+      description: config.seo.description,
+      url: `${process.env.NEXT_PUBLIC_APP_URL ?? ''}/${slug}`,
+      siteName: config.name,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: config.seo.title,
+      description: config.seo.description,
+    },
+  }
+}
+
+export default async function SlugPage({ params }: Props) {
+  const { slug } = await params
+  const config = getConfigBySlug(slug)
+  if (!config) notFound()
+
+  const accent = getAccent(config.theme.accent)
+
+  return (
+    <main className="flex flex-col min-h-screen">
+      {/* Nav */}
+      <nav className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <span className={`text-xl font-bold ${accent.highlight}`}>
+          {config.theme.emoji} {config.name}
+        </span>
+        <a
+          href="#waitlist"
+          className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${accent.button}`}
+        >
+          {config.hero.cta}
+        </a>
+      </nav>
+
+      <Hero config={config} accent={accent} />
+      <Problem config={config} />
+      <Features config={config} accent={accent} />
+      <Pricing config={config} accent={accent} />
+
+      <div id="waitlist">
+        <CtaSection config={config} accent={accent} />
+      </div>
+
+      <Footer config={config} accent={accent} />
+    </main>
+  )
+}
