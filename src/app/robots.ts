@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next'
 export const dynamic = 'force-static'
 
 export default function robots(): MetadataRoute.Robots {
-  const base = process.env.NEXT_PUBLIC_APP_URL ?? 'https://landing-factory.pages.dev'
+  const base = process.env.NEXT_PUBLIC_APP_URL ?? 'https://landing-factory-163.pages.dev'
   return {
     rules: { userAgent: '*', allow: '/' },
     sitemap: `${base}/sitemap.xml`,
