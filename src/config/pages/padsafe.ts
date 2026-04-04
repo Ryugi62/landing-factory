@@ -6,6 +6,7 @@ export const config: PageConfig = {
   tagline: "Scan your period products. Know exactly what's inside.",
   description:
     'PadSafe instantly checks the ingredients in your sanitary pads, tampons, and period products — flagging toxic chemicals so you can make safer choices for yourself and your family.',
+  variant: 'clinical',
   theme: {
     accent: 'rose',
     emoji: '🩸',

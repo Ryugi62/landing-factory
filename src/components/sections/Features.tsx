@@ -7,8 +7,14 @@ type Props = {
 }
 
 export function Features({ config, accent }: Props) {
+  const { variant } = config
+  const sectionClass =
+    variant === 'warm'
+      ? 'bg-rose-50/40 px-6 py-20'
+      : 'bg-white px-6 py-20'
+
   return (
-    <section className="px-6 py-20">
+    <section className={sectionClass}>
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold text-slate-900 text-center mb-4">
           Everything you need.
@@ -20,7 +26,11 @@ export function Features({ config, accent }: Props) {
           {config.features.map((f) => (
             <div
               key={f.title}
-              className={`relative rounded-2xl border border-slate-200 p-6 transition-all ${accent.featureBorder} hover:shadow-sm`}
+              className={`relative rounded-2xl border p-6 transition-all hover:shadow-sm ${
+                variant === 'warm'
+                  ? `border-rose-100 bg-white ${accent.featureBorder}`
+                  : `border-slate-200 bg-white ${accent.featureBorder}`
+              }`}
             >
               {f.badge && (
                 <span className={`absolute -top-3 left-4 rounded-full px-3 py-1 text-xs font-medium ${accent.button}`}>

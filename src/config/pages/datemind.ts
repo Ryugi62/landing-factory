@@ -6,6 +6,7 @@ export const config: PageConfig = {
   tagline: 'Your AI dating coach that turns awkward into awesome.',
   description:
     'Practice real dating scenarios, get honest feedback on your messages, and optimize your dating profile.',
+  variant: 'warm',
   theme: {
     accent: 'rose',
     emoji: '💘',

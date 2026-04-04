@@ -9,9 +9,10 @@ type Props = {
   cta: string
   accent: AccentClasses
   compact?: boolean
+  inverted?: boolean
 }
 
-export function WaitlistForm({ slug, cta, accent, compact = false }: Props) {
+export function WaitlistForm({ slug, cta, accent, compact = false, inverted = false }: Props) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -40,8 +41,8 @@ export function WaitlistForm({ slug, cta, accent, compact = false }: Props) {
     return (
       <div className={`flex flex-col items-center gap-2 ${compact ? '' : 'py-2'}`}>
         <span className="text-2xl">🎉</span>
-        <p className="font-semibold text-slate-900">You&apos;re on the list!</p>
-        <p className="text-sm text-slate-500">We&apos;ll email you the moment we launch.</p>
+        <p className={`font-semibold ${inverted ? 'text-white' : 'text-slate-900'}`}>You&apos;re on the list!</p>
+        <p className={`text-sm ${inverted ? 'text-white/70' : 'text-slate-500'}`}>We&apos;ll email you the moment we launch.</p>
       </div>
     )
   }
@@ -57,7 +58,11 @@ export function WaitlistForm({ slug, cta, accent, compact = false }: Props) {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        className={`flex-1 rounded-full border border-slate-200 bg-white px-5 ${compact ? 'py-2.5 text-sm' : 'py-3'} placeholder-slate-400 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-100`}
+        className={`flex-1 rounded-full px-5 ${compact ? 'py-2.5 text-sm' : 'py-3'} placeholder-slate-400 focus:outline-none focus:ring-2 ${
+          inverted
+            ? 'border border-white/30 bg-white/10 text-white placeholder-white/50 focus:ring-white/20'
+            : 'border border-slate-200 bg-white focus:border-slate-400 focus:ring-slate-100'
+        }`}
       />
       <button
         type="submit"

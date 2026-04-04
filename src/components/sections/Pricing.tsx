@@ -7,8 +7,14 @@ type Props = {
 }
 
 export function Pricing({ config, accent }: Props) {
+  const { variant } = config
+  const sectionClass =
+    variant === 'warm'
+      ? 'bg-white px-6 py-20'
+      : 'bg-slate-50 px-6 py-20'
+
   return (
-    <section className="bg-slate-50 px-6 py-20">
+    <section className={sectionClass}>
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold text-slate-900 text-center mb-4">Simple pricing</h2>
         <p className="text-slate-500 text-center mb-16">Start free. Upgrade when you&apos;re ready.</p>
@@ -19,6 +25,8 @@ export function Pricing({ config, accent }: Props) {
               className={`rounded-2xl p-6 border flex flex-col gap-4 ${
                 plan.highlight
                   ? accent.highlightPlan
+                  : variant === 'warm'
+                  ? 'border-rose-100 bg-rose-50/30'
                   : 'border-slate-200 bg-white'
               }`}
             >

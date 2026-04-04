@@ -1,3 +1,5 @@
+export type Variant = 'warm' | 'clinical' | 'bold' | 'minimal'
+
 export type AccentColor =
   | 'rose'
   | 'violet'
@@ -13,6 +15,7 @@ export type PageConfig = {
   name: string
   tagline: string
   description: string
+  variant?: Variant
   theme: {
     accent: AccentColor
     emoji: string
