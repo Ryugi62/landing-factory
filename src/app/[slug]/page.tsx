@@ -50,7 +50,7 @@ export default async function SlugPage({ params }: Props) {
   return (
     <main className="flex flex-col min-h-screen">
       {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+      <nav className={`flex items-center justify-between px-6 py-4 border-b ${config.variant === 'bold' ? 'bg-slate-950 border-slate-800' : 'border-slate-100'}`}>
         <span className={`text-xl font-bold ${accent.highlight}`}>
           {config.theme.emoji} {config.name}
         </span>

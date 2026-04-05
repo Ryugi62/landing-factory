@@ -9,15 +9,15 @@ type Props = {
 export function Pricing({ config, accent }: Props) {
   const { variant } = config
   const sectionClass =
-    variant === 'warm'
-      ? 'bg-white px-6 py-20'
-      : 'bg-slate-50 px-6 py-20'
+    variant === 'warm' ? 'bg-white px-6 py-20'
+    : variant === 'bold' ? 'bg-slate-900 px-6 py-20'
+    : 'bg-slate-50 px-6 py-20'
 
   return (
     <section className={sectionClass}>
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-slate-900 text-center mb-4">Simple pricing</h2>
-        <p className="text-slate-500 text-center mb-16">Start free. Upgrade when you&apos;re ready.</p>
+        <h2 className={`text-3xl font-bold text-center mb-4 ${variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>Simple pricing</h2>
+        <p className={`text-center mb-16 ${variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>Start free. Upgrade when you&apos;re ready.</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {config.pricing.map((plan) => (
             <div
@@ -27,18 +27,20 @@ export function Pricing({ config, accent }: Props) {
                   ? accent.highlightPlan
                   : variant === 'warm'
                   ? 'border-rose-100 bg-rose-50/30'
+                  : variant === 'bold'
+                  ? 'border-slate-700 bg-slate-800'
                   : 'border-slate-200 bg-white'
               }`}
             >
               <div>
-                <h3 className={`font-semibold text-lg ${plan.highlight ? 'text-white' : 'text-slate-900'}`}>
+                <h3 className={`font-semibold text-lg ${plan.highlight ? 'text-white' : variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>
                   {plan.name}
                 </h3>
                 <div className="flex items-baseline gap-1 mt-1">
-                  <span className={`text-4xl font-bold ${plan.highlight ? 'text-white' : 'text-slate-900'}`}>
+                  <span className={`text-4xl font-bold ${plan.highlight ? 'text-white' : variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>
                     {plan.price}
                   </span>
-                  <span className={`text-sm ${plan.highlight ? 'opacity-70 text-white' : 'text-slate-400'}`}>
+                  <span className={`text-sm ${plan.highlight ? 'opacity-70 text-white' : variant === 'bold' ? 'text-slate-400' : 'text-slate-400'}`}>
                     {plan.period}
                   </span>
                 </div>
@@ -47,7 +49,7 @@ export function Pricing({ config, accent }: Props) {
                 {plan.features.map((f) => (
                   <li
                     key={f}
-                    className={`text-sm flex items-center gap-2 ${plan.highlight ? 'text-white opacity-90' : 'text-slate-600'}`}
+                    className={`text-sm flex items-center gap-2 ${plan.highlight ? 'text-white opacity-90' : variant === 'bold' ? 'text-slate-300' : 'text-slate-600'}`}
                   >
                     <span className={plan.highlight ? accent.checkInverted : accent.check}>✓</span>
                     {f}

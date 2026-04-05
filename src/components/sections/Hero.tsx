@@ -10,6 +10,7 @@ type Props = {
 
 const TRUST_BARS: Partial<Record<Variant, string[]>> = {
   clinical: ['Based on FDA & EU CosIng data', '10,000+ products indexed', 'Peer-reviewed sources'],
+  bold: ['Real-time news analysis', 'All major markets covered', 'No Bloomberg subscription needed'],
 }
 
 export function Hero({ config, accent }: Props) {
@@ -19,7 +20,22 @@ export function Hero({ config, accent }: Props) {
   const sectionClass =
     variant === 'warm'
       ? 'flex flex-col items-center justify-center text-center px-6 py-24 gap-6 bg-gradient-to-b from-rose-50 via-pink-50 to-white'
+      : variant === 'bold'
+      ? 'flex flex-col items-center justify-center text-center px-6 py-24 gap-6 bg-slate-950'
       : 'flex flex-col items-center justify-center text-center px-6 py-24 gap-6'
+
+  const titleClass =
+    variant === 'bold'
+      ? 'text-5xl font-black tracking-tight text-white max-w-2xl leading-tight'
+      : 'text-5xl font-bold tracking-tight text-slate-900 max-w-2xl leading-tight'
+
+  const subtitleClass =
+    variant === 'bold'
+      ? 'text-xl text-slate-400 max-w-xl leading-relaxed'
+      : 'text-xl text-slate-500 max-w-xl leading-relaxed'
+
+  const footerClass =
+    variant === 'bold' ? 'text-sm text-slate-500' : 'text-sm text-slate-400'
 
   return (
     <section className={sectionClass}>
@@ -29,11 +45,11 @@ export function Hero({ config, accent }: Props) {
       <span className={`rounded-full border px-4 py-1.5 text-sm font-medium ${accent.badge}`}>
         {variant !== 'warm' && `${theme.emoji} `}{hero.badge}
       </span>
-      <h1 className="text-5xl font-bold tracking-tight text-slate-900 max-w-2xl leading-tight">
+      <h1 className={titleClass}>
         {hero.title}{' '}
         <span className={accent.highlight}>{hero.titleHighlight}</span>
       </h1>
-      <p className="text-xl text-slate-500 max-w-xl leading-relaxed">{hero.subtitle}</p>
+      <p className={subtitleClass}>{hero.subtitle}</p>
       {trustBar && (
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm text-slate-400">
           {trustBar.map((item) => (
@@ -47,7 +63,7 @@ export function Hero({ config, accent }: Props) {
         <WaitlistForm slug={slug} cta={hero.cta} accent={accent} />
       </div>
       <WaitlistCount slug={slug} />
-      <p className="text-sm text-slate-400">No credit card required · Free to join</p>
+      <p className={footerClass}>No credit card required · Free to join</p>
     </section>
   )
 }
