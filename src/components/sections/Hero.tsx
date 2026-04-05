@@ -1,6 +1,7 @@
 import type { PageConfig, Variant } from '@/config/type'
 import type { AccentClasses } from '@/lib/accent'
 import { WaitlistForm } from './WaitlistForm'
+import { WaitlistCount } from './WaitlistCount'
 
 type Props = {
   config: PageConfig
@@ -45,6 +46,7 @@ export function Hero({ config, accent }: Props) {
       <div className="w-full flex justify-center mt-2">
         <WaitlistForm slug={slug} cta={hero.cta} accent={accent} />
       </div>
+      <WaitlistCount slug={slug} />
       <p className="text-sm text-slate-400">No credit card required · Free to join</p>
     </section>
   )
