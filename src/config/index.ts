@@ -4,9 +4,10 @@ import { config as padsafe } from './pages/padsafe'
 import { config as skinfit } from './pages/skinfit'
 import { config as portfolioshield } from './pages/portfolioshield'
 import { config as tapout } from './pages/tapout'
+import { config as test_pipeline_success_01 } from './pages/test-pipeline-success-01'
 
 // 새 제품 추가: import 하고 아래 배열에 추가
-export const ALL_CONFIGS: PageConfig[] = [datemind, padsafe, skinfit, portfolioshield, tapout]
+export const ALL_CONFIGS: PageConfig[] = [datemind, padsafe, skinfit, portfolioshield, tapout, test_pipeline_success_01]
 
 export function getConfigBySlug(slug: string): PageConfig | undefined {
   return ALL_CONFIGS.find((c) => c.slug === slug)
