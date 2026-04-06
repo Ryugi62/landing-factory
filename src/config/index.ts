@@ -11,9 +11,10 @@ import { config as invoicenudge } from './pages/invoicenudge'
 import { config as scope_lock } from './pages/scope-lock'
 import { config as declog } from './pages/declog'
 import { config as slotfill } from './pages/slotfill'
+import { config as coach_on } from './pages/coach-on'
 
 // 새 제품 추가: import 하고 아래 배열에 추가
-export const ALL_CONFIGS: PageConfig[] = [datemind, padsafe, skinfit, portfolioshield, tapout, test_pipeline_success_01, test_pipeline_success_02, truetailor, invoicenudge, scope_lock, declog, slotfill]
+export const ALL_CONFIGS: PageConfig[] = [datemind, padsafe, skinfit, portfolioshield, tapout, test_pipeline_success_01, test_pipeline_success_02, truetailor, invoicenudge, scope_lock, declog, slotfill, coach_on]
 
 export function getConfigBySlug(slug: string): PageConfig | undefined {
   return ALL_CONFIGS.find((c) => c.slug === slug)
