@@ -8,17 +8,6 @@ export function getSupabaseClient() {
   )
 }
 
-export type WaitlistEntry = {
-  email: string
-  product: string
-  referral_source?: string
-}
-
-export async function insertWaitlist(entry: WaitlistEntry) {
-  const supabase = getSupabaseClient()
-  const { error } = await supabase.from('waitlist').insert(entry)
-  if (error) throw error
-}
 
 export async function getWaitlistCount(product: string): Promise<number> {
   const supabase = getSupabaseClient()

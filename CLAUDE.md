@@ -6,9 +6,26 @@
 ## 기술 스택
 - Framework: Next.js 15 + Tailwind CSS v4
 - 배포: Cloudflare Pages (`output: 'export'` 정적 빌드)
-- Waitlist: Supabase (anon key로 클라이언트에서 직접 insert)
+- Waitlist: Supabase (Edge Function `waitlist-signup` 경유, Turnstile 검증 필수)
+- Bot Protection: Cloudflare Turnstile (invisible)
+- Email: Resend 3단계 시퀀스 (welcome → value_prop → early_access)
 
-## 새 제품 추가 방법 (30분 이내)
+## 새 제품 추가 방법
+
+### 자동화 방법 (권장, 5분 이내)
+1. Ada [DEBATE] VERDICT에서 JSON 아티팩트 복사 → `build.json` 저장
+2. `npm run new-product -- --from build.json`
+   - config 파일 생성 + index.ts 등록 + build 검증 자동 완료
+3. 결과 리뷰 후 `git push` → Cloudflare Pages 자동 배포
+
+사전 확인 (파일 미생성):
+```
+npm run new-product -- --from build.json --dry-run
+```
+
+JSON 형식 예시: `scripts/example-build-artifact.json`
+
+### 수동 방법 (fallback)
 1. `src/config/pages/` 에 `{slug}.ts` 파일 생성 (기존 파일 복사)
 2. config 내용 수정
 3. `src/config/index.ts` 에 import + `ALL_CONFIGS` 배열에 추가
@@ -40,26 +57,53 @@ src/
     robots.ts
 ```
 
-## Supabase waitlist 테이블 SQL
+## Supabase 스키마
 ```sql
+-- waitlist 테이블
 CREATE TABLE waitlist (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   email text NOT NULL,
   product text NOT NULL,
   referral_source text,
+  email_1_sent_at timestamptz,  -- welcome (Day 0)
+  email_2_sent_at timestamptz,  -- value_prop (Day 2)
+  email_3_sent_at timestamptz,  -- early_access (Day 5)
   created_at timestamptz DEFAULT now()
 );
-
--- RLS: anon insert 허용
 ALTER TABLE waitlist ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "allow anon insert" ON waitlist FOR INSERT TO anon WITH CHECK (true);
+-- anon INSERT 제거됨 — 모든 삽입은 waitlist-signup Edge Function 경유
 CREATE POLICY "allow service role select" ON waitlist FOR SELECT TO service_role USING (true);
+
+-- 이메일 예약 큐
+CREATE TABLE email_queue (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  waitlist_id uuid NOT NULL REFERENCES waitlist(id) ON DELETE CASCADE,
+  email_type text NOT NULL CHECK (email_type IN ('welcome', 'value_prop', 'early_access')),
+  scheduled_at timestamptz NOT NULL,
+  sent_at timestamptz,
+  error text,
+  created_at timestamptz DEFAULT now()
+);
 ```
 
-## Resend 알림
-Supabase Edge Function (`supabase/functions/notify-waitlist/`) 에서 처리.
-DB webhook → Edge Function → Resend API.
-클라이언트에 Resend API 키 노출 금지.
+## Edge Functions
+| Function | 역할 | JWT |
+|----------|------|-----|
+| `waitlist-signup` | Turnstile 검증 → waitlist INSERT | No (공개 폼) |
+| `notify-waitlist` | DB webhook → 관리자 알림 + 유저 환영 메일 + 큐 삽입 | No (webhook) |
+| `send-scheduled-emails` | 크론으로 호출 → 예약 이메일 발송 | No (CRON_SECRET 인증) |
+
+## Waitlist 흐름
+1. WaitlistForm → `waitlist-signup` Edge Function (Turnstile 검증 + service_role INSERT)
+2. DB webhook → `notify-waitlist` (관리자 알림 + 환영 메일 + Day 2/5 큐 삽입)
+3. 크론 (매시간) → `send-scheduled-emails` (큐에서 due 항목 발송)
+
+## 환경변수
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY` — 클라이언트 (.env.local + CF Pages)
+- `TURNSTILE_SECRET_KEY` — Edge Function secret
+- `RESEND_API_KEY` — Edge Function secret
+- `FROM_EMAIL` — Edge Function secret (커스텀 도메인 설정 후)
+- `CRON_SECRET` — Edge Function secret (크론 인증용)
 
 ## 커밋 규칙
 - author: Ryugi62 <66805752+Ryugi62@users.noreply.github.com>
