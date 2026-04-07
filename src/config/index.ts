@@ -13,9 +13,10 @@ import { config as coach_on } from './pages/coach-on'
 import { config as repurpose_os } from './pages/repurpose-os'
 import { config as hwpdrop } from './pages/hwpdrop'
 import { config as naira_dash } from './pages/naira-dash'
+import { config as flowkit } from './pages/flowkit'
 
 // 새 제품 추가: import 하고 아래 배열에 추가
-export const ALL_CONFIGS: PageConfig[] = [datemind, padsafe, skinfit, portfolioshield, tapout, truetailor, invoicenudge, scope_lock, declog, slotfill, coach_on, repurpose_os, hwpdrop, naira_dash]
+export const ALL_CONFIGS: PageConfig[] = [datemind, padsafe, skinfit, portfolioshield, tapout, truetailor, invoicenudge, scope_lock, declog, slotfill, coach_on, repurpose_os, hwpdrop, naira_dash, flowkit]
 
 export function getConfigBySlug(slug: string): PageConfig | undefined {
   return ALL_CONFIGS.find((c) => c.slug === slug)
