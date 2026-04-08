@@ -15,9 +15,10 @@ import { config as hwpdrop } from './pages/hwpdrop'
 import { config as naira_dash } from './pages/naira-dash'
 import { config as flowkit } from './pages/flowkit'
 import { config as reportflow } from './pages/reportflow'
+import { config as reviewdraft } from './pages/reviewdraft'
 
 // 새 제품 추가: import 하고 아래 배열에 추가
-export const ALL_CONFIGS: PageConfig[] = [datemind, padsafe, skinfit, portfolioshield, tapout, truetailor, invoicenudge, scope_lock, declog, slotfill, coach_on, repurpose_os, hwpdrop, naira_dash, flowkit, reportflow]
+export const ALL_CONFIGS: PageConfig[] = [datemind, padsafe, skinfit, portfolioshield, tapout, truetailor, invoicenudge, scope_lock, declog, slotfill, coach_on, repurpose_os, hwpdrop, naira_dash, flowkit, reportflow, reviewdraft]
 
 export function getConfigBySlug(slug: string): PageConfig | undefined {
   return ALL_CONFIGS.find((c) => c.slug === slug)
