@@ -38,7 +38,7 @@ export function HowItWorks({ config, accent }: Props) {
               <h3 className={`font-semibold mb-2 ${variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>
                 {step.title}
               </h3>
-              <p className={`text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>
+              <p className={`text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-600'}`}>
                 {step.description}
               </p>
             </div>

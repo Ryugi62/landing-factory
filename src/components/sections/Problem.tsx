@@ -45,7 +45,7 @@ export function Problem({ config }: Props) {
                 <div className="text-3xl mb-3">{p.icon}</div>
               )}
               <h3 className={`font-semibold mb-2 ${variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>{p.title}</h3>
-              <p className={`text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>{p.desc}</p>
+              <p className={`text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-600'}`}>{p.desc}</p>
             </div>
           ))}
         </div>

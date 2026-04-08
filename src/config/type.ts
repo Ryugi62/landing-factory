@@ -26,11 +26,13 @@ export type PageConfig = {
     titleHighlight: string
     subtitle: string
     cta: string
+    layout?: 'centered' | 'split'
     beforeAfter?: {
       before: string
       after: string
     }
   }
+  trustBadges?: string[]
   problems: Array<{
     icon: string
     title: string
@@ -52,6 +54,7 @@ export type PageConfig = {
   cta: {
     title: string
     subtitle: string
+    reasons?: string[]
   }
   productPreview?: {
     title: string
@@ -69,6 +72,7 @@ export type PageConfig = {
   }>
   comparison?: {
     heading?: string
+    subtitle?: string
     product: string
     competitors: string[]
     rows: Array<{

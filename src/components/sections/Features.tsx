@@ -19,7 +19,7 @@ export function Features({ config, accent }: Props) {
         <h2 className={`text-3xl font-bold text-center mb-4 ${variant === 'bold' ? 'font-black text-white' : 'text-slate-900'}`}>
           Everything you need.
         </h2>
-        <p className={`text-center mb-16 max-w-xl mx-auto ${variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>
+        <p className={`text-center mb-16 max-w-xl mx-auto ${variant === 'bold' ? 'text-slate-400' : 'text-slate-600'}`}>
           {config.description}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -41,7 +41,7 @@ export function Features({ config, accent }: Props) {
               )}
               <div className="text-3xl mb-4">{f.icon}</div>
               <h3 className={`text-lg font-semibold mb-2 ${variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>{f.title}</h3>
-              <p className={`text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>{f.desc}</p>
+              <p className={`text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-600'}`}>{f.desc}</p>
             </div>
           ))}
         </div>

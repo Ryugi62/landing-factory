@@ -21,9 +21,15 @@ export function Comparison({ config, accent }: Props) {
   return (
     <section className={sectionClass}>
       <div className="max-w-3xl mx-auto">
-        <h2 className={`text-3xl font-bold text-center mb-12 ${variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>
+        <h2 className={`text-3xl font-bold text-center mb-3 ${variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>
           {heading}
         </h2>
+        {comparison.subtitle && (
+          <p className={`text-center mb-12 text-base ${variant === 'bold' ? 'text-slate-400' : 'text-slate-600'}`}>
+            {comparison.subtitle}
+          </p>
+        )}
+        {!comparison.subtitle && <div className="mb-12" />}
 
         <div className="overflow-x-auto -mx-6 px-6">
           <table className="w-full text-sm">
@@ -64,10 +70,10 @@ export function Comparison({ config, accent }: Props) {
                           <span className="text-slate-300">&mdash;</span>
                         )
                       ) : (
-                        <span className={`text-xs ${
+                        <span className={`text-sm ${
                           i === 0
-                            ? variant === 'bold' ? 'text-white' : 'text-slate-900'
-                            : variant === 'bold' ? 'text-slate-400' : 'text-slate-500'
+                            ? variant === 'bold' ? 'text-white font-medium' : 'text-slate-900 font-medium'
+                            : variant === 'bold' ? 'text-slate-300' : 'text-slate-600'
                         }`}>
                           {val}
                         </span>

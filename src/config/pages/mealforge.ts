@@ -14,13 +14,15 @@ export const config: PageConfig = {
     badge: 'For Fitness Coaches',
     title: 'Client meal plans in 30 seconds, not',
     titleHighlight: '30 minutes',
-    subtitle: 'Enter your client\'s goals, allergies, and preferences. Get a branded, macro-balanced weekly plan. Share it in one click. Stop losing Sundays to spreadsheets.',
+    subtitle: 'Enter your client\'s goals, allergies, and preferences. Get a branded, macro-balanced weekly plan. Share it in one click.',
     cta: 'Join the Waitlist — Free Early Access',
-    beforeAfter: {
-      before: 'Sunday night: 3 hours of Googling recipes and calculating macros for 8 clients. You skip meal plans entirely because there\'s no time — and your clients notice.',
-      after: 'All 8 clients have personalized meal plans before your morning coffee. Each plan is branded, macro-balanced, and comes with a grocery list. You charge $100 more per client.',
-    },
+    layout: 'split',
   },
+  trustBadges: [
+    'Built for online fitness coaches',
+    'Guidance tool, not medical advice',
+    'Cancel anytime',
+  ],
   problems: [
     {
       icon: '⏱️',
@@ -81,7 +83,12 @@ export const config: PageConfig = {
   ],
   cta: {
     title: 'Stop spending hours on meal plans. Start spending seconds.',
-    subtitle: 'Join the waitlist today. Founding coaches get lifetime pricing and free early access.',
+    subtitle: 'Join the waitlist today and be among the first coaches to try MealForge.',
+    reasons: [
+      'Founding coaches get lifetime pricing',
+      'Early access + shape the product',
+      'First 50 coaches get branded exports free',
+    ],
   },
   productPreview: {
     title: 'Weekly Meal Plan — Sarah K.',
@@ -102,6 +109,7 @@ export const config: PageConfig = {
   ],
   comparison: {
     heading: 'Why not just use a spreadsheet?',
+    subtitle: 'Sheets is manual. ChatGPT is inconsistent. Trainerize is overkill. MealForge does one thing — fast, branded meal plans.',
     product: 'MealForge',
     competitors: ['Google Sheets', 'ChatGPT', 'Trainerize'],
     rows: [
