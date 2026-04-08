@@ -178,7 +178,7 @@ export const config: PageConfig = {
     title: ${s(config.hero.title)},
     titleHighlight: ${s(config.hero.titleHighlight)},
     subtitle: ${s(config.hero.subtitle)},
-    cta: ${s(config.hero.cta)},
+    cta: ${s(config.hero.cta)},${config.hero.beforeAfter ? `\n    beforeAfter: {\n      before: ${s(config.hero.beforeAfter.before)},\n      after: ${s(config.hero.beforeAfter.after)},\n    },` : ''}
   },
   problems: [
 ${problems}
@@ -192,7 +192,7 @@ ${pricing}
   cta: {
     title: ${s(config.cta.title)},
     subtitle: ${s(config.cta.subtitle)},
-  },
+  },${config.productPreview ? `\n  productPreview: {\n    title: ${s(config.productPreview.title)},${config.productPreview.subtitle ? `\n    subtitle: ${s(config.productPreview.subtitle)},` : ''}\n    items: [\n${config.productPreview.items.map(item => `      { label: ${s(item.label)}, value: ${s(item.value)}${item.highlight ? ', highlight: true' : ''} },`).join('\n')}\n    ],\n  },` : ''}${config.howItWorks ? `\n  howItWorks: [\n${config.howItWorks.map(step => `    { step: ${step.step}, title: ${s(step.title)}, description: ${s(step.description)} },`).join('\n')}\n  ],` : ''}${config.comparison ? `\n  comparison: {\n${config.comparison.heading ? `    heading: ${s(config.comparison.heading)},\n` : ''}    product: ${s(config.comparison.product)},\n    competitors: [${config.comparison.competitors.map(c => s(c)).join(', ')}],\n    rows: [\n${config.comparison.rows.map(r => `      { feature: ${s(r.feature)}, values: [${r.values.map(v => typeof v === 'boolean' ? v : s(v)).join(', ')}] },`).join('\n')}\n    ],\n  },` : ''}${config.faq ? `\n  faq: [\n${config.faq.map(f => `    { question: ${s(f.question)}, answer: ${s(f.answer)} },`).join('\n')}\n  ],` : ''}
   seo: {
     title: ${s(config.seo.title)},
     description: ${s(config.seo.description)},

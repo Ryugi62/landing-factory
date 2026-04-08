@@ -53,6 +53,33 @@ export type PageConfig = {
     title: string
     subtitle: string
   }
+  productPreview?: {
+    title: string
+    subtitle?: string
+    items: Array<{
+      label: string
+      value: string
+      highlight?: boolean
+    }>
+  }
+  howItWorks?: Array<{
+    step: number
+    title: string
+    description: string
+  }>
+  comparison?: {
+    heading?: string
+    product: string
+    competitors: string[]
+    rows: Array<{
+      feature: string
+      values: Array<boolean | string>
+    }>
+  }
+  faq?: Array<{
+    question: string
+    answer: string
+  }>
   seo: {
     title: string
     description: string

@@ -12,9 +12,9 @@ export function CtaSection({ config, accent }: Props) {
 
   if (variant === 'warm') {
     return (
-      <section className="px-6 py-20 text-center bg-gradient-to-r from-rose-500 to-pink-600">
+      <section className={`px-6 py-20 text-center ${accent.ctaBg}`}>
         <h2 className="text-3xl font-bold text-white mb-4">{config.cta.title}</h2>
-        <p className="text-rose-100 mb-10 max-w-md mx-auto">{config.cta.subtitle}</p>
+        <p className={`${accent.ctaSubtext} mb-10 max-w-md mx-auto`}>{config.cta.subtitle}</p>
         <div className="flex justify-center">
           <WaitlistForm slug={config.slug} cta={config.hero.cta} accent={accent} inverted />
         </div>

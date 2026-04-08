@@ -9,7 +9,7 @@ type Props = {
 export function Features({ config, accent }: Props) {
   const { variant } = config
   const sectionClass =
-    variant === 'warm' ? 'bg-rose-50/40 px-6 py-20'
+    variant === 'warm' ? 'bg-slate-50/40 px-6 py-20'
     : variant === 'bold' ? 'bg-slate-950 px-6 py-20'
     : 'bg-white px-6 py-20'
 
@@ -28,7 +28,7 @@ export function Features({ config, accent }: Props) {
               key={f.title}
               className={`relative rounded-2xl border p-6 transition-all hover:shadow-sm ${
                 variant === 'warm'
-                  ? `border-rose-100 bg-white ${accent.featureBorder}`
+                  ? `border-slate-100 bg-white ${accent.featureBorder}`
                   : variant === 'bold'
                   ? `border-slate-700 bg-slate-800 ${accent.featureBorder}`
                   : `border-slate-200 bg-white ${accent.featureBorder}`

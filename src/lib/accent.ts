@@ -14,6 +14,8 @@ export const ACCENT = {
     featureBorder: 'hover:border-rose-200',
     progressBar: 'bg-rose-500',
     link: 'text-rose-600 hover:text-rose-700',
+    ctaBg: 'bg-rose-600',
+    ctaSubtext: 'text-rose-100',
   },
   violet: {
     badge: 'bg-violet-50 text-violet-600 border-violet-100',
@@ -27,6 +29,8 @@ export const ACCENT = {
     featureBorder: 'hover:border-violet-200',
     progressBar: 'bg-violet-500',
     link: 'text-violet-600 hover:text-violet-700',
+    ctaBg: 'bg-violet-600',
+    ctaSubtext: 'text-violet-100',
   },
   blue: {
     badge: 'bg-blue-50 text-blue-600 border-blue-100',
@@ -40,6 +44,8 @@ export const ACCENT = {
     featureBorder: 'hover:border-blue-200',
     progressBar: 'bg-blue-500',
     link: 'text-blue-600 hover:text-blue-700',
+    ctaBg: 'bg-blue-600',
+    ctaSubtext: 'text-blue-100',
   },
   emerald: {
     badge: 'bg-emerald-50 text-emerald-600 border-emerald-100',
@@ -53,6 +59,8 @@ export const ACCENT = {
     featureBorder: 'hover:border-emerald-200',
     progressBar: 'bg-emerald-500',
     link: 'text-emerald-600 hover:text-emerald-700',
+    ctaBg: 'bg-emerald-600',
+    ctaSubtext: 'text-emerald-100',
   },
   orange: {
     badge: 'bg-orange-50 text-orange-600 border-orange-100',
@@ -66,6 +74,8 @@ export const ACCENT = {
     featureBorder: 'hover:border-orange-200',
     progressBar: 'bg-orange-500',
     link: 'text-orange-600 hover:text-orange-700',
+    ctaBg: 'bg-orange-600',
+    ctaSubtext: 'text-orange-100',
   },
   amber: {
     badge: 'bg-amber-50 text-amber-600 border-amber-100',
@@ -79,6 +89,8 @@ export const ACCENT = {
     featureBorder: 'hover:border-amber-200',
     progressBar: 'bg-amber-500',
     link: 'text-amber-600 hover:text-amber-700',
+    ctaBg: 'bg-amber-500',
+    ctaSubtext: 'text-amber-100',
   },
   pink: {
     badge: 'bg-pink-50 text-pink-600 border-pink-100',
@@ -92,6 +104,8 @@ export const ACCENT = {
     featureBorder: 'hover:border-pink-200',
     progressBar: 'bg-pink-500',
     link: 'text-pink-600 hover:text-pink-700',
+    ctaBg: 'bg-pink-600',
+    ctaSubtext: 'text-pink-100',
   },
   indigo: {
     badge: 'bg-indigo-50 text-indigo-600 border-indigo-100',
@@ -105,6 +119,8 @@ export const ACCENT = {
     featureBorder: 'hover:border-indigo-200',
     progressBar: 'bg-indigo-500',
     link: 'text-indigo-600 hover:text-indigo-700',
+    ctaBg: 'bg-indigo-600',
+    ctaSubtext: 'text-indigo-100',
   },
 } satisfies Record<AccentColor, Record<string, string>>
 

@@ -26,7 +26,7 @@ export function Pricing({ config, accent }: Props) {
                 plan.highlight
                   ? accent.highlightPlan
                   : variant === 'warm'
-                  ? 'border-rose-100 bg-rose-50/30'
+                  ? 'border-slate-100 bg-slate-50/30'
                   : variant === 'bold'
                   ? 'border-slate-700 bg-slate-800'
                   : 'border-slate-200 bg-white'

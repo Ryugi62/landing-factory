@@ -19,7 +19,7 @@ export function Hero({ config, accent }: Props) {
 
   const sectionClass =
     variant === 'warm'
-      ? 'flex flex-col items-center justify-center text-center px-6 py-24 gap-6 bg-gradient-to-b from-rose-50 via-pink-50 to-white'
+      ? 'flex flex-col items-center justify-center text-center px-6 py-24 gap-6 bg-gradient-to-b from-slate-50 via-gray-50/50 to-white'
       : variant === 'bold'
       ? 'flex flex-col items-center justify-center text-center px-6 py-24 gap-6 bg-slate-950'
       : 'flex flex-col items-center justify-center text-center px-6 py-24 gap-6'

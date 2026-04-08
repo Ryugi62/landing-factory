@@ -83,6 +83,43 @@ export const config: PageConfig = {
     title: 'Stop spending hours on meal plans. Start spending seconds.',
     subtitle: 'Join the waitlist today. Founding coaches get lifetime pricing and free early access.',
   },
+  productPreview: {
+    title: 'Weekly Meal Plan — Sarah K.',
+    subtitle: 'Generated in 30 seconds for a fat-loss client with nut allergy',
+    items: [
+      { label: 'Mon Breakfast', value: 'Greek yogurt bowl — 380 cal, 32g protein' },
+      { label: 'Mon Lunch', value: 'Grilled chicken salad — 520 cal, 42g protein', highlight: true },
+      { label: 'Mon Dinner', value: 'Salmon with roasted vegetables — 610 cal, 38g protein' },
+      { label: 'Tue Breakfast', value: 'Protein oatmeal with berries — 410 cal, 28g protein' },
+      { label: 'Tue Lunch', value: 'Turkey wrap with avocado — 480 cal, 35g protein' },
+      { label: 'Weekly Macros', value: 'Avg 1,820 cal · 145g P · 180g C · 62g F', highlight: true },
+    ],
+  },
+  howItWorks: [
+    { step: 1, title: 'Enter client profile', description: 'Goals, dietary restrictions, allergies, food preferences, and target macros. Takes 30 seconds.' },
+    { step: 2, title: 'AI generates the plan', description: 'A complete 7-day meal plan with recipes, portions, calories, and macros — calculated instantly.' },
+    { step: 3, title: 'Share with your branding', description: 'Export as a branded PDF or send a client-friendly link. Grocery list included.' },
+  ],
+  comparison: {
+    heading: 'Why not just use a spreadsheet?',
+    product: 'MealForge',
+    competitors: ['Google Sheets', 'ChatGPT', 'Trainerize'],
+    rows: [
+      { feature: 'Time per plan', values: ['30 seconds', '45–90 min', '5–10 min', '15–30 min'] },
+      { feature: 'Macro calculation', values: [true, false, false, true] },
+      { feature: 'Branded PDF export', values: [true, false, false, true] },
+      { feature: 'Grocery list', values: [true, false, false, false] },
+      { feature: 'Client sharing link', values: [true, false, false, true] },
+      { feature: 'Allergy-safe recipes', values: [true, false, false, false] },
+      { feature: 'Price', values: ['$19/mo', 'Free', 'Free', '$30+/mo'] },
+    ],
+  },
+  faq: [
+    { question: 'Do I need a nutrition certification to use MealForge?', answer: 'MealForge generates meal plan templates based on general dietary guidelines — not medical advice. Many coaches use it alongside their existing certifications. All plans include a standard disclaimer.' },
+    { question: 'How accurate are the macro and calorie calculations?', answer: 'Plans are generated using established nutritional data. You can review and adjust any values before sharing with your clients.' },
+    { question: 'Can I customize the generated plans?', answer: 'Yes. Edit any meal, swap recipes, adjust portions. The AI gives you a solid starting point — you have full control over the final plan.' },
+    { question: 'How is this different from Trainerize or TrueCoach?', answer: 'Those are full coaching platforms ($30–100/mo) with exercise tracking, messaging, and more. MealForge does one thing — meal plans — and does it in 30 seconds instead of 30 minutes. Use it alongside your existing tools.' },
+  ],
   seo: {
     title: 'MealForge — AI Meal Plans for Fitness Coaches | 30 Seconds Per Client',
     description: 'MealForge helps fitness coaches create personalized, macro-balanced meal plans in 30 seconds. Custom branding, grocery lists, and PDF export. Free to start.',

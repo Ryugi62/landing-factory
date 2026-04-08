@@ -27,7 +27,7 @@ export function Problem({ config }: Props) {
               key={p.title}
               className={`rounded-2xl p-6 text-left shadow-sm ${
                 variant === 'warm'
-                  ? 'bg-rose-50 border border-rose-100'
+                  ? 'bg-slate-50 border border-slate-100'
                   : variant === 'bold'
                   ? 'bg-slate-800 border border-slate-700'
                   : 'bg-white border border-slate-100'
