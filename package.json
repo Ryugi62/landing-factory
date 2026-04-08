@@ -6,7 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "new-product": "node scripts/new-product.mjs",
+    "process-pending": "node scripts/process-pending.mjs",
+    "ads:blueprint": "node scripts/generate-google-ads-blueprint.mjs",
+    "ads:export": "node scripts/export-google-ads-blueprint.mjs",
+    "ads:editor-export": "node scripts/export-google-ads-editor.mjs",
+    "ads:validate": "node scripts/validate-google-ads-output.mjs",
+    "ads:prepare": "node scripts/prepare-google-ads-package.mjs",
+    "ads:launch": "node scripts/launch-google-ads-campaign.mjs",
+    "ads:performance": "node scripts/get-google-ads-performance.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.101.1",
