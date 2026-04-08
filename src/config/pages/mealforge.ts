@@ -1,0 +1,91 @@
+import type { PageConfig } from '@/config/type'
+
+export const config: PageConfig = {
+  slug: 'mealforge',
+  name: 'MealForge',
+  tagline: 'Client Meal Plans in 30 Seconds',
+  description: 'MealForge helps fitness coaches create personalized, macro-balanced meal plans for every client in seconds — not hours. Enter goals, allergies, and preferences. Get a branded weekly plan. Share in one click.',
+  variant: 'warm',
+  theme: {
+    accent: 'emerald',
+    emoji: '🥗',
+  },
+  hero: {
+    badge: 'For Fitness Coaches',
+    title: 'Client meal plans in 30 seconds, not',
+    titleHighlight: '30 minutes',
+    subtitle: 'Enter your client\'s goals, allergies, and preferences. Get a branded, macro-balanced weekly plan. Share it in one click. Stop losing Sundays to spreadsheets.',
+    cta: 'Join the Waitlist — Free Early Access',
+    beforeAfter: {
+      before: 'Sunday night: 3 hours of Googling recipes and calculating macros for 8 clients. You skip meal plans entirely because there\'s no time — and your clients notice.',
+      after: 'All 8 clients have personalized meal plans before your morning coffee. Each plan is branded, macro-balanced, and comes with a grocery list. You charge $100 more per client.',
+    },
+  },
+  problems: [
+    {
+      icon: '⏱️',
+      title: '45 minutes per client, per plan',
+      desc: 'Googling recipes, calculating macros, formatting spreadsheets. Multiply by 15 clients and your entire weekend is gone.',
+    },
+    {
+      icon: '💸',
+      title: 'Leaving $100/client on the table',
+      desc: 'Coaches who offer meal plans charge $50–100 more per month. But you can\'t offer what you don\'t have time to create.',
+    },
+    {
+      icon: '📋',
+      title: 'Generic plans kill client trust',
+      desc: 'Copy-pasting the same plan for every client? They notice. Personalization is what keeps clients paying month after month.',
+    }
+  ],
+  features: [
+    {
+      icon: '⚡',
+      title: '30-Second Plan Generation',
+      desc: 'Enter client goals, dietary restrictions, and food preferences. Get a complete 7-day meal plan with calories and macros calculated automatically.',
+      badge: 'Core feature',
+    },
+    {
+      icon: '🎨',
+      title: 'Your Brand, Your Plans',
+      desc: 'Add your logo, colors, and coaching name. Every plan looks like you spent hours on it. Share as polished PDFs or client-friendly links.',
+    },
+    {
+      icon: '🛒',
+      title: 'Smart Grocery Lists',
+      desc: 'Each plan comes with a consolidated shopping list. Your clients stop asking \'what should I buy?\' and start actually following the plan.',
+    }
+  ],
+  pricing: [
+    {
+      name: 'Starter',
+      price: '$0',
+      period: 'forever',
+      features: ['3 meal plans/month', 'Basic macro calculation', 'PDF export', '1 client profile'],
+      highlight: false,
+    },
+    {
+      name: 'Coach',
+      price: '$19',
+      period: '/month',
+      features: ['Unlimited meal plans', '20 client profiles', 'Custom branding', 'Grocery lists', 'Plan history & tracking'],
+      highlight: true,
+    },
+    {
+      name: 'Pro',
+      price: '$39',
+      period: '/month',
+      features: ['Everything in Coach', 'Unlimited clients', 'Client sharing links', 'Bulk plan generation', 'Priority support'],
+      highlight: false,
+    }
+  ],
+  cta: {
+    title: 'Stop spending hours on meal plans. Start spending seconds.',
+    subtitle: 'Join the waitlist today. Founding coaches get lifetime pricing and free early access.',
+  },
+  seo: {
+    title: 'MealForge — AI Meal Plans for Fitness Coaches | 30 Seconds Per Client',
+    description: 'MealForge helps fitness coaches create personalized, macro-balanced meal plans in 30 seconds. Custom branding, grocery lists, and PDF export. Free to start.',
+    keywords: ['meal plan software personal trainer', 'AI meal planner coach', 'nutrition plan generator', 'fitness coach meal plan app', 'custom meal plan tool', 'coach nutrition software'],
+  },
+}
