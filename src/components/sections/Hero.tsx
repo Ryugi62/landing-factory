@@ -17,32 +17,32 @@ function MiniPreview({ config, accent }: Props) {
   const preview = config.productPreview
   if (!preview) return null
   const { variant } = config
-  const items = preview.items.slice(0, 4)
+  const items = preview.items.slice(0, 5)
 
   return (
     <div className={`rounded-xl border shadow-lg overflow-hidden ${variant === 'bold' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
-      <div className={`flex items-center gap-2 px-3 py-2 border-b ${variant === 'bold' ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
-        <div className="flex gap-1">
+      <div className={`flex items-center gap-2 px-4 py-2.5 border-b ${variant === 'bold' ? 'bg-slate-800 border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+        <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
           <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
           <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
         </div>
-        <span className={`text-xs font-medium ml-1 ${variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>
+        <span className={`text-sm font-medium ml-1.5 ${variant === 'bold' ? 'text-slate-400' : 'text-slate-600'}`}>
           {preview.title}
         </span>
       </div>
-      <div className="p-3 space-y-1.5">
+      <div className="p-4 space-y-2">
         {items.map((item) => (
           <div
             key={item.label}
-            className={`flex items-center justify-between rounded-md px-3 py-2 ${
+            className={`flex items-center justify-between rounded-lg px-3.5 py-2.5 ${
               item.highlight ? accent.badge : variant === 'bold' ? 'bg-slate-800/50' : 'bg-slate-50/80'
             }`}
           >
-            <span className={`text-xs font-medium ${item.highlight ? '' : variant === 'bold' ? 'text-slate-300' : 'text-slate-700'}`}>
+            <span className={`text-sm font-medium ${item.highlight ? '' : variant === 'bold' ? 'text-slate-300' : 'text-slate-700'}`}>
               {item.label}
             </span>
-            <span className={`text-xs ${item.highlight ? '' : variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>
+            <span className={`text-sm ${item.highlight ? '' : variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>
               {item.value}
             </span>
           </div>
@@ -83,10 +83,10 @@ export function Hero({ config, accent }: Props) {
 
             {/* Trust badges */}
             {trustBadges && trustBadges.length > 0 && (
-              <div className="flex flex-wrap gap-x-4 gap-y-1">
-                {trustBadges.map((badge) => (
-                  <span key={badge} className={`text-sm flex items-center gap-1.5 ${variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>
-                    <span className={accent.check}>&#10003;</span> {badge}
+              <div className="flex flex-wrap gap-x-3 gap-y-0.5">
+                {trustBadges.map((badge, i) => (
+                  <span key={badge} className={`text-[13px] font-medium flex items-center gap-1 ${variant === 'bold' ? 'text-slate-400' : 'text-slate-600'}`}>
+                    <span className={accent.check}>&#10003;</span>{badge}{i < trustBadges.length - 1 && <span className={`ml-2.5 ${variant === 'bold' ? 'text-slate-700' : 'text-slate-300'}`}>&middot;</span>}
                   </span>
                 ))}
               </div>
@@ -160,10 +160,10 @@ export function Hero({ config, accent }: Props) {
 
       {/* Trust badges (centered) */}
       {trustBadges && trustBadges.length > 0 && (
-        <div className="flex flex-wrap justify-center gap-x-5 gap-y-1">
-          {trustBadges.map((badge) => (
-            <span key={badge} className={`text-sm flex items-center gap-1.5 ${variant === 'bold' ? 'text-slate-400' : 'text-slate-500'}`}>
-              <span className={accent.check}>&#10003;</span> {badge}
+        <div className="flex flex-wrap justify-center gap-x-3 gap-y-0.5">
+          {trustBadges.map((badge, i) => (
+            <span key={badge} className={`text-[13px] font-medium flex items-center gap-1 ${variant === 'bold' ? 'text-slate-400' : 'text-slate-600'}`}>
+              <span className={accent.check}>&#10003;</span>{badge}{i < trustBadges.length - 1 && <span className={`ml-2.5 ${variant === 'bold' ? 'text-slate-700' : 'text-slate-300'}`}>&middot;</span>}
             </span>
           ))}
         </div>

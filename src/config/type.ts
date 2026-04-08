@@ -85,6 +85,11 @@ export type PageConfig = {
     author: string
     role?: string
   }
+  testimonial?: {
+    quote: string
+    author: string
+    role: string
+  }
   faq?: Array<{
     question: string
     answer: string

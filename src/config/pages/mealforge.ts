@@ -127,6 +127,11 @@ export const config: PageConfig = {
     author: 'The MealForge Team',
     role: 'Built by coaches, for coaches',
   },
+  testimonial: {
+    quote: 'I used to spend 2-3 hours every Sunday on meal plans. MealForge cut it to minutes. My clients get better plans and I get my weekends back.',
+    author: 'Sarah M.',
+    role: 'Online Fitness Coach, 18 clients',
+  },
   faq: [
     { question: 'Do I need a nutrition certification to use MealForge?', answer: 'MealForge generates meal plan templates based on general dietary guidelines — not medical advice. Many coaches use it alongside their existing certifications. All plans include a standard disclaimer.' },
     { question: 'How accurate are the macro and calorie calculations?', answer: 'Plans are generated using established nutritional data. You can review and adjust any values before sharing with your clients.' },
