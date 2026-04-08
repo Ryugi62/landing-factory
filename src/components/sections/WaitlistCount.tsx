@@ -14,7 +14,21 @@ export function WaitlistCount({ slug }: Props) {
     getWaitlistCount(slug).then(setCount)
   }, [slug])
 
-  if (count === null || count === 0) return null
+  if (count === null) return null
+
+  if (count === 0) {
+    return (
+      <p className="text-sm text-slate-400">Be one of the first to join</p>
+    )
+  }
+
+  if (count < 10) {
+    return (
+      <p className="text-sm text-slate-400">
+        Join <span className="font-semibold text-slate-600">{count}</span> early {count === 1 ? 'user' : 'users'}
+      </p>
+    )
+  }
 
   return (
     <p className="text-sm text-slate-400">

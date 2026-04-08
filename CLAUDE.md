@@ -65,6 +65,14 @@ CREATE TABLE waitlist (
   email text NOT NULL,
   product text NOT NULL,
   referral_source text,
+  landing_slug text,
+  utm_source text,
+  utm_medium text,
+  utm_campaign text,
+  utm_content text,
+  utm_term text,
+  gclid text,
+  ref_code text,
   email_1_sent_at timestamptz,  -- welcome (Day 0)
   email_2_sent_at timestamptz,  -- value_prop (Day 2)
   email_3_sent_at timestamptz,  -- early_access (Day 5)
@@ -92,6 +100,7 @@ CREATE TABLE email_queue (
 | `waitlist-signup` | Turnstile 검증 → waitlist INSERT | No (공개 폼) |
 | `notify-waitlist` | DB webhook → 관리자 알림 + 유저 환영 메일 + 큐 삽입 | No (webhook) |
 | `send-scheduled-emails` | 크론으로 호출 → 예약 이메일 발송 | No (CRON_SECRET 인증) |
+| `dashboard-metrics` | `/admin`용 성과 집계 응답 | No (`DASHBOARD_SECRET` 인증) |
 
 ## Waitlist 흐름
 1. WaitlistForm → `waitlist-signup` Edge Function (Turnstile 검증 + service_role INSERT)
@@ -104,6 +113,21 @@ CREATE TABLE email_queue (
 - `RESEND_API_KEY` — Edge Function secret
 - `FROM_EMAIL` — Edge Function secret (커스텀 도메인 설정 후)
 - `CRON_SECRET` — Edge Function secret (크론 인증용)
+- `DASHBOARD_SECRET` — Edge Function secret (`/admin` 대시보드 인증용, `CRON_SECRET`과 분리)
+- `GOOGLE_ADS_DEVELOPER_TOKEN` — Google Ads API developer token
+- `GOOGLE_ADS_CLIENT_ID` — OAuth client ID
+- `GOOGLE_ADS_CLIENT_SECRET` — OAuth client secret
+- `GOOGLE_ADS_REFRESH_TOKEN` — Google Ads scope refresh token
+- `GOOGLE_ADS_CUSTOMER_ID` — 실제 광고를 생성할 client account ID (`-` 없이)
+- `GOOGLE_ADS_LOGIN_CUSTOMER_ID` — MCC로 호출할 때 사용하는 manager account ID (`-` 없이, 선택)
+- `GOOGLE_ADS_API_VERSION` — 기본값 `v23`
+- `GOOGLE_ADS_DAILY_BUDGET` 또는 `GOOGLE_ADS_DAILY_BUDGET_MICROS` — launch 기본 예산 입력용
+
+## Google Ads 스크립트
+- `npm run ads:prepare -- --slug slotfill` — blueprint/export/editor-export/validate 일괄 실행
+- `npm run ads:launch -- --slug slotfill --dry-run --daily-budget 25000` — Google Ads launch plan 생성만 수행
+- `npm run ads:launch -- --slug slotfill --daily-budget 25000` — Google Ads API로 budget → campaign(PAUSED 기본) → ad group → keywords → RSA 생성
+- `ads:launch` 1차 범위는 핵심 search 구조까지만 자동화한다. sitelink/callout는 `generated/google-ads/{slug}.launch.json`에 `manualAssetsPending`으로 남긴다.
 
 ## 커밋 규칙
 - author: Ryugi62 <66805752+Ryugi62@users.noreply.github.com>

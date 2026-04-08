@@ -17,7 +17,20 @@ serve(async (req) => {
   }
 
   try {
-    const { email, product, referral_source, turnstile_token } = await req.json()
+    const {
+      email,
+      product,
+      referral_source,
+      turnstile_token,
+      landing_slug,
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      utm_content,
+      utm_term,
+      gclid,
+      ref_code,
+    } = await req.json()
 
     if (!email || !product || !turnstile_token) {
       return new Response(
@@ -49,9 +62,22 @@ serve(async (req) => {
 
     // Insert into waitlist via service_role (bypasses anon RLS)
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+    const signup = {
+      email,
+      product,
+      referral_source: referral_source?.trim() || null,
+      landing_slug: landing_slug?.trim() || product,
+      utm_source: utm_source?.trim() || null,
+      utm_medium: utm_medium?.trim() || null,
+      utm_campaign: utm_campaign?.trim() || null,
+      utm_content: utm_content?.trim() || null,
+      utm_term: utm_term?.trim() || null,
+      gclid: gclid?.trim() || null,
+      ref_code: ref_code?.trim() || null,
+    }
     const { error } = await supabase
       .from('waitlist')
-      .insert({ email, product, referral_source })
+      .insert(signup)
 
     if (error) {
       const isDuplicate =

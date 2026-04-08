@@ -12,12 +12,28 @@ type ProductRow = {
   email3: number
 }
 
-type SourceRow = {
-  source: string
+type UtmSourceRow = {
+  utm_source: string
   count: number
 }
 
-type DailyRow = {
+type UtmCampaignRow = {
+  utm_campaign: string
+  count: number
+}
+
+type ProductCampaignRow = {
+  product: string
+  utm_campaign: string
+  count: number
+}
+
+type ReferralSourceRow = {
+  referral_source: string
+  count: number
+}
+
+type DailySignupRow = {
   date: string
   count: number
 }
@@ -25,8 +41,11 @@ type DailyRow = {
 type Dashboard = {
   total_signups: number
   by_product: ProductRow[]
-  by_source: SourceRow[]
-  daily: DailyRow[]
+  daily_30d: DailySignupRow[]
+  by_utm_source: UtmSourceRow[]
+  by_utm_campaign: UtmCampaignRow[]
+  by_product_campaign: ProductCampaignRow[]
+  by_referral_source: ReferralSourceRow[]
   email_queue: { pending: number; sent: number; failed: number }
   updated_at: string
 }
@@ -54,29 +73,32 @@ export default function AdminPage() {
     }
   }
 
-  const maxDaily = data ? Math.max(...data.daily.map((d) => d.count), 1) : 1
+  const maxDaily = data ? Math.max(...data.daily_30d.map((d) => d.count), 1) : 1
 
   return (
     <div className="min-h-screen bg-slate-50 p-6 font-[var(--font-geist-sans)]">
       <h1 className="text-2xl font-bold mb-6">Waitlist Dashboard</h1>
 
       {!data && (
-        <div className="flex gap-2 max-w-md">
-          <input
-            type="password"
-            placeholder="Dashboard secret"
-            value={secret}
-            onChange={(e) => setSecret(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && load()}
-            className="flex-1 border border-slate-200 rounded-lg px-4 py-2 text-sm"
-          />
-          <button
-            onClick={load}
-            disabled={loading}
-            className="bg-slate-900 text-white rounded-lg px-4 py-2 text-sm font-medium disabled:opacity-50"
-          >
-            {loading ? 'Loading…' : 'Load'}
-          </button>
+        <div className="space-y-2 max-w-md">
+          <p className="text-sm text-slate-500">Enter `DASHBOARD_SECRET` to load metrics.</p>
+          <div className="flex gap-2">
+            <input
+              type="password"
+              placeholder="DASHBOARD_SECRET"
+              value={secret}
+              onChange={(e) => setSecret(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && load()}
+              className="flex-1 border border-slate-200 rounded-lg px-4 py-2 text-sm"
+            />
+            <button
+              onClick={load}
+              disabled={loading}
+              className="bg-slate-900 text-white rounded-lg px-4 py-2 text-sm font-medium disabled:opacity-50"
+            >
+              {loading ? 'Loading…' : 'Load'}
+            </button>
+          </div>
         </div>
       )}
 
@@ -119,34 +141,27 @@ export default function AdminPage() {
           </Section>
 
           {/* By Source */}
-          <Section title="Signups by Source">
-            {data.by_source.length === 0 ? (
-              <p className="text-slate-400 text-sm">No referral data yet</p>
-            ) : (
-              <div className="space-y-2">
-                {data.by_source.map((r) => (
-                  <div key={r.source} className="flex items-center gap-3">
-                    <span className="text-sm w-48 truncate text-slate-600">{r.source}</span>
-                    <div className="flex-1 bg-slate-100 rounded-full h-5 overflow-hidden">
-                      <div
-                        className="bg-slate-800 h-full rounded-full"
-                        style={{ width: `${(r.count / data.total_signups) * 100}%` }}
-                      />
-                    </div>
-                    <span className="text-sm font-medium w-8 text-right">{r.count}</span>
-                  </div>
-                ))}
-              </div>
-            )}
+          <Section title="Signups by UTM Source">
+            <CountBars
+              rows={data.by_utm_source.map((r) => ({ label: r.utm_source, count: r.count }))}
+              emptyText="No UTM source data yet"
+            />
+          </Section>
+
+          <Section title="Signups by UTM Campaign">
+            <CountBars
+              rows={data.by_utm_campaign.map((r) => ({ label: r.utm_campaign, count: r.count }))}
+              emptyText="No UTM campaign data yet"
+            />
           </Section>
 
           {/* Daily Chart */}
           <Section title="Daily Signups (last 30 days)">
-            {data.daily.length === 0 ? (
+            {data.daily_30d.length === 0 ? (
               <p className="text-slate-400 text-sm">No data yet</p>
             ) : (
               <div className="flex items-end gap-1 h-32">
-                {data.daily.map((d) => (
+                {data.daily_30d.map((d) => (
                   <div key={d.date} className="flex-1 flex flex-col items-center gap-1">
                     <div
                       className="w-full bg-slate-800 rounded-t min-h-[2px]"
@@ -161,6 +176,31 @@ export default function AdminPage() {
             )}
           </Section>
 
+          <Section title="Signups by Product + UTM Campaign">
+            {data.by_product_campaign.length === 0 ? (
+              <p className="text-slate-400 text-sm">No campaign data yet</p>
+            ) : (
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-slate-500 border-b">
+                    <th className="pb-2 font-medium">Product</th>
+                    <th className="pb-2 font-medium">UTM Campaign</th>
+                    <th className="pb-2 font-medium text-right">Signups</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.by_product_campaign.map((r) => (
+                    <tr key={`${r.product}-${r.utm_campaign}`} className="border-b border-slate-100">
+                      <td className="py-2 font-medium">{r.product}</td>
+                      <td className="py-2 text-slate-600">{r.utm_campaign}</td>
+                      <td className="py-2 text-right">{r.count}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </Section>
+
           {/* Email Queue */}
           <Section title="Email Queue Status">
             <div className="grid grid-cols-3 gap-4">
@@ -168,6 +208,13 @@ export default function AdminPage() {
               <Card label="Sent" value={data.email_queue.sent} />
               <Card label="Failed" value={data.email_queue.failed} />
             </div>
+          </Section>
+
+          <Section title="Raw Referral Source (legacy / debug)">
+            <CountBars
+              rows={data.by_referral_source.map((r) => ({ label: r.referral_source, count: r.count }))}
+              emptyText="No referral source data yet"
+            />
           </Section>
 
           <p className="text-xs text-slate-400">Updated: {new Date(data.updated_at).toLocaleString()}</p>
@@ -198,6 +245,37 @@ function Section({ title, children }: { title: string; children: React.ReactNode
     <div className="bg-white rounded-xl border border-slate-200 p-5">
       <h2 className="font-semibold mb-4">{title}</h2>
       {children}
+    </div>
+  )
+}
+
+function CountBars({
+  rows,
+  emptyText,
+}: {
+  rows: Array<{ label: string; count: number }>
+  emptyText: string
+}) {
+  if (rows.length === 0) {
+    return <p className="text-slate-400 text-sm">{emptyText}</p>
+  }
+
+  const max = Math.max(...rows.map((r) => r.count), 1)
+
+  return (
+    <div className="space-y-2">
+      {rows.map((row) => (
+        <div key={row.label} className="flex items-center gap-3">
+          <span className="text-sm w-48 truncate text-slate-600">{row.label}</span>
+          <div className="flex-1 bg-slate-100 rounded-full h-5 overflow-hidden">
+            <div
+              className="bg-slate-800 h-full rounded-full"
+              style={{ width: `${(row.count / max) * 100}%` }}
+            />
+          </div>
+          <span className="text-sm font-medium w-10 text-right">{row.count}</span>
+        </div>
+      ))}
     </div>
   )
 }

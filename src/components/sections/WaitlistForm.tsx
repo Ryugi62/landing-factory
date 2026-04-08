@@ -30,28 +30,79 @@ type Props = {
   inverted?: boolean
 }
 
+type AttributionPayload = {
+  landing_slug: string
+  referral_source?: string
+  utm_source?: string
+  utm_medium?: string
+  utm_campaign?: string
+  utm_content?: string
+  utm_term?: string
+  gclid?: string
+  ref_code?: string
+}
+
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''
 
-function getAttribution(): string | undefined {
-  const params = new URLSearchParams(window.location.search)
-  const utmSource = params.get('utm_source')
-  if (utmSource) {
-    return ['utm', utmSource, params.get('utm_medium'), params.get('utm_campaign')]
-      .filter(Boolean).join(':')
+function readParam(params: URLSearchParams, key: string): string | undefined {
+  const value = params.get(key)?.trim()
+  return value ? value : undefined
+}
+
+function summarizeAttribution({
+  utm_source,
+  utm_medium,
+  utm_campaign,
+  utm_content,
+  utm_term,
+  gclid,
+  ref_code,
+}: Omit<AttributionPayload, 'landing_slug'>): string | undefined {
+  if (utm_source || utm_medium || utm_campaign || utm_content || utm_term || gclid) {
+    const parts = [
+      'utm',
+      utm_source ?? '(none)',
+      utm_medium ?? '(none)',
+      utm_campaign ?? '(none)',
+    ]
+    if (utm_content) parts.push(`content=${utm_content}`)
+    if (utm_term) parts.push(`term=${utm_term}`)
+    if (gclid) parts.push(`gclid=${gclid}`)
+    return parts.join(':')
   }
-  const ref = params.get('ref')
-  if (ref) return `ref:${ref}`
-  if (document.referrer) {
-    try { return `referrer:${new URL(document.referrer).hostname}` }
-    catch { return `referrer:${document.referrer}` }
-  }
+
+  if (ref_code) return `ref:${ref_code}`
   return undefined
+}
+
+function getAttribution(landingSlug: string): AttributionPayload {
+  const params = new URLSearchParams(window.location.search)
+  const attribution: AttributionPayload = {
+    landing_slug: landingSlug,
+    utm_source: readParam(params, 'utm_source'),
+    utm_medium: readParam(params, 'utm_medium'),
+    utm_campaign: readParam(params, 'utm_campaign'),
+    utm_content: readParam(params, 'utm_content'),
+    utm_term: readParam(params, 'utm_term'),
+    gclid: readParam(params, 'gclid'),
+    ref_code: readParam(params, 'ref'),
+  }
+
+  attribution.referral_source = summarizeAttribution(attribution)
+  if (attribution.referral_source) return attribution
+
+  if (document.referrer) {
+    try { attribution.referral_source = `referrer:${new URL(document.referrer).hostname}` }
+    catch { attribution.referral_source = `referrer:${document.referrer}` }
+  }
+
+  return attribution
 }
 
 function buildShareUrl(ref: string): string {
   const url = new URL(window.location.href)
-  for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'ref']) {
+  for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'ref']) {
     url.searchParams.delete(key)
   }
   url.searchParams.set('ref', ref)
@@ -103,7 +154,7 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
       const body = {
         email,
         product: slug,
-        referral_source: getAttribution(),
+        ...getAttribution(slug),
         turnstile_token: turnstileToken ?? '',
       }
 

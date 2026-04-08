@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# build pipeline artifacts (written by Ada, consumed by process-pending)
+scripts/pending/*.json
+scripts/processed/*.json
+scripts/failed/*.json
+
+# generated Google Ads artifacts
+generated/
+
+# supabase CLI temp
+supabase/.temp/
