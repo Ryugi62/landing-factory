@@ -26,6 +26,10 @@ export type PageConfig = {
     titleHighlight: string
     subtitle: string
     cta: string
+    beforeAfter?: {
+      before: string
+      after: string
+    }
   }
   problems: Array<{
     icon: string

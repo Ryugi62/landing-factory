@@ -50,6 +50,19 @@ export function Hero({ config, accent }: Props) {
         <span className={accent.highlight}>{hero.titleHighlight}</span>
       </h1>
       <p className={subtitleClass}>{hero.subtitle}</p>
+      {hero.beforeAfter && (
+        <div className={`flex items-center gap-3 sm:gap-4 max-w-lg mx-auto ${variant === 'bold' ? 'text-white' : ''}`}>
+          <div className={`flex-1 rounded-lg p-3 sm:p-4 text-center ${variant === 'bold' ? 'bg-red-950/40 border border-red-800/50' : 'bg-red-50 border border-red-200'}`}>
+            <span className={`text-xs font-semibold uppercase tracking-wide ${variant === 'bold' ? 'text-red-400' : 'text-red-500'}`}>Before</span>
+            <p className={`mt-1 text-sm font-medium ${variant === 'bold' ? 'text-red-200' : 'text-slate-700'}`}>{hero.beforeAfter.before}</p>
+          </div>
+          <span className={`text-xl shrink-0 ${variant === 'bold' ? 'text-slate-500' : 'text-slate-400'}`}>→</span>
+          <div className={`flex-1 rounded-lg p-3 sm:p-4 text-center ${variant === 'bold' ? 'bg-emerald-950/40 border border-emerald-800/50' : 'bg-emerald-50 border border-emerald-200'}`}>
+            <span className={`text-xs font-semibold uppercase tracking-wide ${variant === 'bold' ? 'text-emerald-400' : 'text-emerald-600'}`}>After</span>
+            <p className={`mt-1 text-sm font-medium ${variant === 'bold' ? 'text-emerald-200' : 'text-slate-700'}`}>{hero.beforeAfter.after}</p>
+          </div>
+        </div>
+      )}
       {trustBar && (
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm text-slate-400">
           {trustBar.map((item) => (
@@ -63,7 +76,7 @@ export function Hero({ config, accent }: Props) {
         <WaitlistForm slug={slug} cta={hero.cta} accent={accent} />
       </div>
       <WaitlistCount slug={slug} />
-      <p className={footerClass}>No credit card required · Free to join</p>
+      <p className={footerClass}>No credit card required · No spam</p>
     </section>
   )
 }

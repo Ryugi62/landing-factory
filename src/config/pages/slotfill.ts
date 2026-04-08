@@ -16,6 +16,10 @@ export const config: PageConfig = {
     titleHighlight: 'no-shows',
     subtitle: 'SlotFill detects cancellations and auto-texts your waitlist in seconds. First to click gets the slot. No manual work.',
     cta: 'Join the waitlist',
+    beforeAfter: {
+      before: 'Cancellation → 30 min of calls → slot stays empty',
+      after: 'Cancellation → auto-text in 10 sec → slot filled',
+    },
   },
   problems: [
     {
