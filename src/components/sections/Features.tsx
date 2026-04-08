@@ -41,7 +41,7 @@ export function Features({ config, accent }: Props) {
               )}
               <div className="text-3xl mb-4">{f.icon}</div>
               <h3 className={`text-lg font-semibold mb-2 ${variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>{f.title}</h3>
-              <p className={`text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-600'}`}>{f.desc}</p>
+              <p className={`text-[0.9375rem] leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-700'}`}>{f.desc}</p>
             </div>
           ))}
         </div>

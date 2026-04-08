@@ -29,7 +29,7 @@ export function FAQ({ config }: Props) {
                   +
                 </span>
               </summary>
-              <p className={`pb-4 text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-600'}`}>
+              <p className={`pb-4 text-[0.9375rem] leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-700'}`}>
                 {item.answer}
               </p>
             </details>

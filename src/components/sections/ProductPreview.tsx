@@ -12,8 +12,8 @@ export function ProductPreview({ config, accent }: Props) {
 
   const { variant } = config
   const sectionClass =
-    variant === 'bold' ? 'bg-slate-950 px-6 py-20'
-    : 'bg-white px-6 py-20'
+    variant === 'bold' ? 'bg-slate-950 px-6 py-14'
+    : 'bg-white px-6 py-14'
 
   const windowBg =
     variant === 'bold' ? 'bg-slate-900 border-slate-700'

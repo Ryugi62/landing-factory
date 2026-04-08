@@ -12,8 +12,8 @@ export function HowItWorks({ config, accent }: Props) {
 
   const { variant } = config
   const sectionClass =
-    variant === 'bold' ? 'bg-slate-900 px-6 py-20'
-    : 'bg-slate-50/50 px-6 py-20'
+    variant === 'bold' ? 'bg-slate-900 px-6 py-14'
+    : 'bg-slate-50/50 px-6 py-14'
 
   return (
     <section className={sectionClass}>
@@ -38,7 +38,7 @@ export function HowItWorks({ config, accent }: Props) {
               <h3 className={`font-semibold mb-2 ${variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>
                 {step.title}
               </h3>
-              <p className={`text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-600'}`}>
+              <p className={`text-[0.9375rem] leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-700'}`}>
                 {step.description}
               </p>
             </div>

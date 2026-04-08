@@ -7,9 +7,9 @@ type Props = {
 export function Problem({ config }: Props) {
   const { variant } = config
   const sectionClass =
-    variant === 'warm' ? 'bg-white px-6 py-20'
-    : variant === 'bold' ? 'bg-slate-900 px-6 py-20'
-    : 'bg-slate-50 px-6 py-20'
+    variant === 'warm' ? 'bg-white px-6 py-14'
+    : variant === 'bold' ? 'bg-slate-900 px-6 py-14'
+    : 'bg-slate-50 px-6 py-14'
 
   const headingClass =
     variant === 'bold' ? 'text-3xl font-black text-white mb-12'
@@ -45,7 +45,7 @@ export function Problem({ config }: Props) {
                 <div className="text-3xl mb-3">{p.icon}</div>
               )}
               <h3 className={`font-semibold mb-2 ${variant === 'bold' ? 'text-white' : 'text-slate-900'}`}>{p.title}</h3>
-              <p className={`text-sm leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-600'}`}>{p.desc}</p>
+              <p className={`text-[0.9375rem] leading-relaxed ${variant === 'bold' ? 'text-slate-300' : 'text-slate-700'}`}>{p.desc}</p>
             </div>
           ))}
         </div>

@@ -11,6 +11,7 @@ import { ProductPreview } from '@/components/sections/ProductPreview'
 import { HowItWorks } from '@/components/sections/HowItWorks'
 import { Comparison } from '@/components/sections/Comparison'
 import { FAQ } from '@/components/sections/FAQ'
+import { FounderNote } from '@/components/sections/FounderNote'
 import { Footer } from '@/components/sections/Footer'
 
 type Props = {
@@ -77,6 +78,7 @@ export default async function SlugPage({ params }: Props) {
       <Comparison config={config} accent={accent} />
       <Pricing config={config} accent={accent} />
       <FAQ config={config} />
+      <FounderNote config={config} accent={accent} />
 
       <div id="waitlist">
         <CtaSection config={config} accent={accent} />

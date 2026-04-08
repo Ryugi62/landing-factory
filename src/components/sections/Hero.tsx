@@ -66,8 +66,8 @@ export function Hero({ config, accent }: Props) {
         : ''
 
     return (
-      <section className={`px-6 py-16 sm:py-24 ${bgClass}`}>
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <section className={`px-6 py-14 sm:py-20 ${bgClass}`}>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* Left: Text */}
           <div className="flex flex-col gap-5">
             <span className={`rounded-full border px-4 py-1.5 text-sm font-medium w-fit ${accent.badge}`}>

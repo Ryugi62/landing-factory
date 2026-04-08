@@ -80,6 +80,11 @@ export type PageConfig = {
       values: Array<boolean | string>
     }>
   }
+  founderNote?: {
+    quote: string
+    author: string
+    role?: string
+  }
   faq?: Array<{
     question: string
     answer: string

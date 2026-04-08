@@ -122,6 +122,11 @@ export const config: PageConfig = {
       { feature: 'Price', values: ['$19/mo', 'Free', 'Free', '$30+/mo'] },
     ],
   },
+  founderNote: {
+    quote: 'I built MealForge because I was spending my entire Sunday making meal plans in Google Sheets. My clients deserved better nutrition guidance, but I just didn\'t have the hours. If you\'re in the same boat — this is for you.',
+    author: 'The MealForge Team',
+    role: 'Built by coaches, for coaches',
+  },
   faq: [
     { question: 'Do I need a nutrition certification to use MealForge?', answer: 'MealForge generates meal plan templates based on general dietary guidelines — not medical advice. Many coaches use it alongside their existing certifications. All plans include a standard disclaimer.' },
     { question: 'How accurate are the macro and calorie calculations?', answer: 'Plans are generated using established nutritional data. You can review and adjust any values before sharing with your clients.' },
