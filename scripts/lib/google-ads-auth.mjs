@@ -4,6 +4,37 @@
  * Used by: get-google-ads-performance.mjs, launch-google-ads-campaign.mjs
  */
 
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+
+// Auto-load .env.local so scripts work without manual `export` or inline env.
+// Only sets vars that are not already in process.env (no overwrite).
+;(function loadEnvLocal() {
+  const candidates = ['.env.local', '.env']
+  for (const name of candidates) {
+    try {
+      const filepath = resolve(process.cwd(), name)
+      const content = readFileSync(filepath, 'utf8')
+      for (const line of content.split('\n')) {
+        const trimmed = line.trim()
+        if (!trimmed || trimmed.startsWith('#')) continue
+        const eqIdx = trimmed.indexOf('=')
+        if (eqIdx === -1) continue
+        const key = trimmed.slice(0, eqIdx).trim()
+        let val = trimmed.slice(eqIdx + 1).trim()
+        // strip surrounding quotes
+        if ((val.startsWith("'") && val.endsWith("'")) || (val.startsWith('"') && val.endsWith('"'))) {
+          val = val.slice(1, -1)
+        }
+        if (!(key in process.env)) {
+          process.env[key] = val
+        }
+      }
+      break // stop after first found file
+    } catch { /* file not found, try next */ }
+  }
+})()
+
 const DEFAULT_API_VERSION = process.env.GOOGLE_ADS_API_VERSION || 'v23'
 
 export function normalizeCustomerId(value, label) {
