@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     openGraph: {
       title: config.seo.title,
-      description: config.seo.description,
+      description: config.seo.ogDescription ?? config.seo.description,
       url: `${process.env.NEXT_PUBLIC_APP_URL ?? ''}/${slug}`,
       siteName: config.name,
       type: 'website',
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: config.seo.title,
-      description: config.seo.description,
+      description: config.seo.ogDescription ?? config.seo.description,
     },
   }
 }

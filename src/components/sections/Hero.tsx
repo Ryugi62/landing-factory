@@ -93,7 +93,7 @@ export function Hero({ config, accent }: Props) {
             )}
 
             <div className="mt-1">
-              <WaitlistForm slug={slug} cta={hero.cta} accent={accent} />
+              <WaitlistForm slug={slug} cta={hero.cta} accent={accent} shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} />
             </div>
             <WaitlistCount slug={slug} />
             <p className={`text-sm ${variant === 'bold' ? 'text-slate-500' : 'text-slate-400'}`}>
@@ -179,7 +179,7 @@ export function Hero({ config, accent }: Props) {
         </div>
       )}
       <div className="w-full flex justify-center mt-2">
-        <WaitlistForm slug={slug} cta={hero.cta} accent={accent} />
+        <WaitlistForm slug={slug} cta={hero.cta} accent={accent} shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} />
       </div>
       <WaitlistCount slug={slug} />
       <p className={footerClass}>No credit card required &middot; No spam</p>

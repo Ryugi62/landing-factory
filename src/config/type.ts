@@ -94,9 +94,15 @@ export type PageConfig = {
     question: string
     answer: string
   }>
+  sharing?: {
+    shareText?: string
+    communityTagline?: string
+    channels?: ('x' | 'linkedin' | 'copy')[]
+  }
   seo: {
     title: string
     description: string
+    ogDescription?: string
     keywords: string[]
   }
 }

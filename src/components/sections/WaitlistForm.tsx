@@ -28,6 +28,8 @@ type Props = {
   accent: AccentClasses
   compact?: boolean
   inverted?: boolean
+  shareText?: string
+  shareChannels?: ('x' | 'linkedin' | 'copy')[]
 }
 
 type AttributionPayload = {
@@ -109,7 +111,7 @@ function buildShareUrl(ref: string): string {
   return url.toString()
 }
 
-export function WaitlistForm({ slug, cta, accent, compact = false, inverted = false }: Props) {
+export function WaitlistForm({ slug, cta, accent, compact = false, inverted = false, shareText, shareChannels }: Props) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -198,7 +200,10 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
   }
 
   if (status === 'success') {
-    const xShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(buildShareUrl('x_share'))}&text=${encodeURIComponent(`Joining the waitlist for ${document.title} — worth a look: `)}`
+    const channels = shareChannels ?? ['x', 'copy']
+    const xText = shareText ?? `Joining the waitlist for ${document.title} — worth a look: `
+    const xShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(buildShareUrl('x_share'))}&text=${encodeURIComponent(xText)}`
+    const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(buildShareUrl('linkedin_share'))}`
     const borderClass = inverted ? 'border-white/10' : 'border-slate-100'
     const btnClass = inverted
       ? 'border-white/20 text-white/80 hover:bg-white/10'
@@ -212,20 +217,34 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
           <div className={`flex flex-col items-center gap-2 mt-3 pt-3 border-t w-full ${borderClass}`}>
             <p className={`text-xs ${inverted ? 'text-white/50' : 'text-slate-400'}`}>Know someone who&apos;d actually use this? Share it.</p>
             <div className="flex gap-2">
-              <button
-                onClick={copyLink}
-                className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
-              >
-                {copied ? '✓ Copied' : '🔗 Copy link'}
-              </button>
-              <a
-                href={xShareUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
-              >
-                Share on X
-              </a>
+              {channels.includes('copy') && (
+                <button
+                  onClick={copyLink}
+                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
+                >
+                  {copied ? '✓ Copied' : '🔗 Copy link'}
+                </button>
+              )}
+              {channels.includes('x') && (
+                <a
+                  href={xShareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
+                >
+                  Share on X
+                </a>
+              )}
+              {channels.includes('linkedin') && (
+                <a
+                  href={linkedinShareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
+                >
+                  Share on LinkedIn
+                </a>
+              )}
             </div>
           </div>
         )}
