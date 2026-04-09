@@ -26,24 +26,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const config = getConfigBySlug(slug)
   if (!config) return {}
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? ''
+  const ogImageUrl = `${baseUrl}/${slug}/opengraph-image`
   return {
     title: config.seo.title,
     description: config.seo.description,
     keywords: config.seo.keywords,
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_APP_URL ?? ''}/${slug}`,
+      canonical: `${baseUrl}/${slug}`,
     },
     openGraph: {
       title: config.seo.title,
       description: config.seo.ogDescription ?? config.seo.description,
-      url: `${process.env.NEXT_PUBLIC_APP_URL ?? ''}/${slug}`,
+      url: `${baseUrl}/${slug}`,
       siteName: config.name,
       type: 'website',
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: config.tagline }],
     },
     twitter: {
       card: 'summary_large_image',
       title: config.seo.title,
       description: config.seo.ogDescription ?? config.seo.description,
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: config.tagline }],
     },
   }
 }
