@@ -16,12 +16,9 @@ export const config: PageConfig = {
     titleHighlight: 'Get paid for every frame.',
     subtitle: 'Contracts, invoices, and usage rights tracking — built for UGC creators who are tired of DM deals and disappearing brands.',
     cta: 'Protect your next deal — free for 3 deals',
-    beforeAfter: {
-      before: 'DM agreements that vanish, lost invoices, brands using your face for 2 years on a $200 deal',
-      after: 'Signed contracts in 60 seconds, auto-invoices, usage rights that actually expire',
-    },
+    layout: 'split',
   },
-  trustBadges: ['Used by 500+ creators', '40% fewer payment disputes', 'No credit card required'],
+  trustBadges: ['Built for UGC creators', 'Not legal advice — pro templates', 'No credit card required'],
   problems: [
     {
       icon: '👻',
@@ -86,13 +83,15 @@ export const config: PageConfig = {
     reasons: ['Free for 3 deals', '60-second contracts', 'Usage rights tracking'],
   },
   productPreview: {
-    title: 'Your deal dashboard at a glance',
-    subtitle: 'Everything you need to manage brand deals in one place',
+    title: 'Deal #47 — GlowUp Cosmetics',
+    subtitle: 'UGC video contract created in 60 seconds',
     items: [
-      { label: 'Active deals', value: '12', highlight: true },
-      { label: 'Revenue this month', value: '$4,200' },
-      { label: 'Rights expiring soon', value: '3' },
-      { label: 'Avg. time to payment', value: '4.2 days' },
+      { label: 'Deliverable', value: '2x TikTok UGC videos (30s each)' },
+      { label: 'Rate', value: '$350 total', highlight: true },
+      { label: 'Usage Rights', value: '90 days — expires Jun 15, 2026' },
+      { label: 'Revisions', value: '1 included, $75/extra' },
+      { label: 'Payment', value: '50% upfront, 50% on delivery' },
+      { label: 'Status', value: 'Delivered · Invoice sent · Paid in 3 days', highlight: true },
     ],
   },
   howItWorks: [
@@ -118,6 +117,11 @@ export const config: PageConfig = {
     quote: 'I built DealShield after watching too many creator friends get ghosted on deals or find their face in ads months after the contract \'ended.\' Every creator deserves to get paid fairly and know exactly where their content is being used.',
     author: 'DealShield Team',
     role: 'Creators building for creators',
+  },
+  testimonial: {
+    quote: 'I got ghosted twice last year on $400+ deals. Now I send a DealShield contract link and brands take me more seriously. Got paid within a week on my last 5 deals.',
+    author: 'Mia T.',
+    role: 'UGC Creator, 15 brand deals/month',
   },
   faq: [
     { question: 'Are the contracts legally binding?', answer: 'DealShield provides professional contract templates designed for UGC deals, not legal advice. Our templates cover deliverables, payment terms, usage rights, and revision limits. For high-value or complex deals, we recommend consulting a lawyer.' },
