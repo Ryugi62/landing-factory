@@ -117,6 +117,7 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
   const [errorMsg, setErrorMsg] = useState('')
   const [copied, setCopied] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [honeypot, setHoneypot] = useState('')
   const turnstileRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | null>(null)
 
@@ -158,6 +159,7 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
         product: slug,
         ...getAttribution(slug),
         turnstile_token: turnstileToken ?? '',
+        honeypot: honeypot || undefined,
       }
 
       const res = await fetch(`${SUPABASE_URL}/functions/v1/waitlist-signup`, {
@@ -173,8 +175,8 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
         setEmail('')
       } else if (data.error === 'duplicate') {
         setStatus('duplicate')
-      } else if (data.error === 'turnstile_failed') {
-        setErrorMsg('Bot verification failed — please refresh and try again.')
+      } else if (data.error === 'turnstile_failed' || data.error === 'turnstile_required') {
+        setErrorMsg('Security check failed — please refresh the page and try again.')
         setStatus('error')
       } else {
         setErrorMsg("Couldn't sign up — please try again.")
@@ -288,6 +290,17 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
       {status === 'error' && (
         <p className="w-full text-xs text-red-500 text-center mt-1">{errorMsg}</p>
       )}
+      {/* Honeypot — hidden from real users, bots fill it */}
+      <input
+        type="text"
+        name="company"
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+        className="absolute -left-[9999px] opacity-0 h-0 w-0"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
       {/* Turnstile invisible widget */}
       <div ref={turnstileRef} />
     </form>

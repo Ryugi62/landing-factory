@@ -4,6 +4,9 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 const TURNSTILE_SECRET = Deno.env.get('TURNSTILE_SECRET_KEY')!
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+// TEMPORARY: monitor mode to stop losing conversions while Turnstile hostname/client issues are fixed.
+// Switch back to 'enforce' after verifying hostname + client callback flow.
+const TURNSTILE_MODE = Deno.env.get('TURNSTILE_MODE') ?? 'enforce'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -30,34 +33,70 @@ serve(async (req) => {
       utm_term,
       gclid,
       ref_code,
+      honeypot,
     } = await req.json()
 
-    if (!email || !product || !turnstile_token) {
+    if (!email || !product) {
       return new Response(
         JSON.stringify({ error: 'missing_fields' }),
         { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } },
       )
     }
 
-    // Verify Turnstile token
-    const verifyRes = await fetch(
-      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          secret: TURNSTILE_SECRET,
-          response: turnstile_token,
-        }),
-      },
-    )
-    const verifyData = await verifyRes.json()
-
-    if (!verifyData.success) {
+    // Honeypot: bots fill hidden fields — fake success, no insert
+    if (honeypot) {
+      console.log(`[waitlist] honeypot triggered: ${email} product=${product}`)
       return new Response(
-        JSON.stringify({ error: 'turnstile_failed' }),
-        { status: 403, headers: { 'Content-Type': 'application/json', ...corsHeaders } },
+        JSON.stringify({ ok: true }),
+        { headers: { 'Content-Type': 'application/json', ...corsHeaders } },
       )
+    }
+
+    // Turnstile verification — enforce vs monitor mode
+    if (TURNSTILE_MODE === 'enforce') {
+      if (!turnstile_token) {
+        return new Response(
+          JSON.stringify({ error: 'turnstile_required' }),
+          { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } },
+        )
+      }
+      const verifyRes = await fetch(
+        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ secret: TURNSTILE_SECRET, response: turnstile_token }),
+        },
+      )
+      const verifyData = await verifyRes.json()
+      if (!verifyData.success) {
+        return new Response(
+          JSON.stringify({ error: 'turnstile_failed' }),
+          { status: 403, headers: { 'Content-Type': 'application/json', ...corsHeaders } },
+        )
+      }
+    } else {
+      // [TEMP_MONITOR_MODE] — allow signups without valid token, log for debugging
+      if (turnstile_token) {
+        try {
+          const verifyRes = await fetch(
+            'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams({ secret: TURNSTILE_SECRET, response: turnstile_token }),
+            },
+          )
+          const verifyData = await verifyRes.json()
+          if (!verifyData.success) {
+            console.log(`[TEMP_MONITOR_MODE] token_invalid: product=${product} email=${email}`)
+          }
+        } catch (e) {
+          console.log(`[TEMP_MONITOR_MODE] siteverify_error: ${e}`)
+        }
+      } else {
+        console.log(`[TEMP_MONITOR_MODE] token_missing: product=${product} email=${email}`)
+      }
     }
 
     // Insert into waitlist via service_role (bypasses anon RLS)
