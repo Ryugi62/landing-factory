@@ -286,33 +286,32 @@ try {
 
 // ─── healthcheck ─────────────────────────────────────────────────────────────
 
-console.log('\n🩺  Healthcheck...')
 const targetUrl = `${appUrl}/${slug}`
-let healthy = false
-for (let i = 0; i < 3; i++) {
-  if (i > 0) {
-    execSync('sleep 5')
-    console.log(`    retry ${i}/2...`)
-  } else {
-    execSync('sleep 3')
-  }
-  try {
-    const status = execSync(`curl -s -o /dev/null -w "%{http_code}" -L "${targetUrl}"`, {
-      encoding: 'utf8',
-    }).trim()
-    if (status === '200') {
-      healthy = true
-      console.log(`    ✅  ${targetUrl} → ${status}`)
-      break
-    } else {
-      console.log(`    ⚠️   ${targetUrl} → ${status}`)
+
+async function waitForHealthy(url, maxAttempts = 5) {
+  for (let i = 0; i < maxAttempts; i++) {
+    const wait = 3000 * Math.pow(2, i) // 3s → 6s → 12s → 24s → 48s
+    await new Promise(r => setTimeout(r, wait))
+    console.log(`\n🩺  Healthcheck attempt ${i + 1}/${maxAttempts} (waited ${wait / 1000}s)...`)
+    try {
+      const status = execSync(`curl -s -o /dev/null -w "%{http_code}" -L "${url}"`, {
+        encoding: 'utf8',
+      }).trim()
+      if (status === '200') {
+        console.log(`    ✅  ${url} → ${status}`)
+        return true
+      }
+      console.log(`    ⚠️   ${url} → ${status}`)
+    } catch {
+      console.log(`    ⚠️   curl failed (attempt ${i + 1}/${maxAttempts})`)
     }
-  } catch {
-    console.log(`    ⚠️   curl failed (attempt ${i + 1}/3)`)
   }
+  return false
 }
+
+const healthy = await waitForHealthy(targetUrl)
 if (!healthy) {
-  fail(`DEPLOY_FAILED: healthcheck ${targetUrl} → 200 응답 없음 (3회 실패)`)
+  fail(`DEPLOY_FAILED: healthcheck ${targetUrl} → 200 응답 없음 (5회 실패, 최대 93초 대기)`)
 }
 
 // ─── summary ─────────────────────────────────────────────────────────────────
