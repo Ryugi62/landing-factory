@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import type { AccentClasses } from '@/lib/accent'
+import { generateRefCode } from '@/lib/referral'
 
 declare global {
   interface Window {
@@ -30,6 +31,7 @@ type Props = {
   inverted?: boolean
   shareText?: string
   shareChannels?: ('x' | 'linkedin' | 'copy')[]
+  referral?: boolean
 }
 
 type AttributionPayload = {
@@ -111,11 +113,12 @@ function buildShareUrl(ref: string): string {
   return url.toString()
 }
 
-export function WaitlistForm({ slug, cta, accent, compact = false, inverted = false, shareText, shareChannels }: Props) {
+export function WaitlistForm({ slug, cta, accent, compact = false, inverted = false, shareText, shareChannels, referral = false }: Props) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
   const [copied, setCopied] = useState(false)
+  const [myRefCode, setMyRefCode] = useState('')
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   const [honeypot, setHoneypot] = useState('')
   const turnstileRef = useRef<HTMLDivElement>(null)
@@ -154,10 +157,19 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
     setStatus('loading')
 
     try {
+      const attribution = getAttribution(slug)
+      // Generate this user's own referral code before submission so it can be stored in DB.
+      // Doing this client-side keeps the Edge Function stateless.
+      const newRefCode = referral ? generateRefCode(slug) : undefined
       const body = {
         email,
         product: slug,
-        ...getAttribution(slug),
+        ...attribution,
+        // referred_by: the ?ref= value from the URL — who sent this person here.
+        // getAttribution() returns the incoming ?ref= param as ref_code field; remap for clarity.
+        referred_by: attribution.ref_code ?? undefined,
+        // referral_code: this user's own generated share code, stored for attribution tracking.
+        referral_code: newRefCode,
         turnstile_token: turnstileToken ?? '',
         honeypot: honeypot || undefined,
       }
@@ -173,6 +185,7 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
       if (res.ok) {
         setStatus('success')
         setEmail('')
+        if (newRefCode) setMyRefCode(newRefCode)
       } else if (data.error === 'duplicate') {
         setStatus('duplicate')
       } else if (data.error === 'turnstile_failed' || data.error === 'turnstile_required') {
@@ -194,59 +207,76 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
     }
   }
 
-  function copyLink() {
-    navigator.clipboard.writeText(buildShareUrl('copy_share')).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
-
   if (status === 'success') {
-    const channels = shareChannels ?? ['x', 'copy']
-    const xText = shareText ?? `Joining the waitlist for ${document.title} — worth a look: `
-    const xShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(buildShareUrl('x_share'))}&text=${encodeURIComponent(xText)}`
-    const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(buildShareUrl('linkedin_share'))}`
     const borderClass = inverted ? 'border-white/10' : 'border-slate-100'
     const btnClass = inverted
       ? 'border-white/20 text-white/80 hover:bg-white/10'
       : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+
+    // Referral share link — uses stored referral_code if available, else plain URL
+    const shareUrl = myRefCode ? buildShareUrl(myRefCode) : buildShareUrl('share')
+
+    function copyShareLink() {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      })
+    }
+
+    async function nativeShare() {
+      try {
+        await navigator.share({ url: shareUrl })
+      } catch {
+        // user cancelled or not supported — Copy Link is always available as fallback
+      }
+    }
+
+    const canNativeShare = typeof navigator !== 'undefined' && !!navigator.share
+
     return (
       <div className={`flex flex-col items-center gap-2 ${compact ? '' : 'py-2'}`}>
         <span className="text-2xl">🎉</span>
         <p className={`font-semibold ${inverted ? 'text-white' : 'text-slate-900'}`}>You&apos;re on the list!</p>
         <p className={`text-sm ${inverted ? 'text-white/70' : 'text-slate-500'}`}>We&apos;ll reach out with early access details.</p>
-        {!compact && (
+        {!compact && referral && myRefCode && (
+          <div className={`flex flex-col items-center gap-2 mt-3 pt-3 border-t w-full ${borderClass}`}>
+            <p className={`text-sm font-medium ${inverted ? 'text-white' : 'text-slate-800'}`}>
+              Invite 3 friends → get early access
+            </p>
+            <p className={`text-xs ${inverted ? 'text-white/50' : 'text-slate-400'}`}>Your personal invite link:</p>
+            <p className={`text-xs font-mono px-3 py-1.5 rounded-lg break-all text-center ${inverted ? 'bg-white/10 text-white/70' : 'bg-slate-50 text-slate-600'}`}>
+              {shareUrl}
+            </p>
+            <div className="flex gap-2 mt-1">
+              {/* Copy Link — always visible */}
+              <button
+                onClick={copyShareLink}
+                className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
+              >
+                {copied ? '✓ Copied' : '🔗 Copy link'}
+              </button>
+              {/* Native Share — only shown when browser supports it (primarily mobile) */}
+              {canNativeShare && (
+                <button
+                  onClick={nativeShare}
+                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
+                >
+                  Share
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+        {!compact && !referral && (
           <div className={`flex flex-col items-center gap-2 mt-3 pt-3 border-t w-full ${borderClass}`}>
             <p className={`text-xs ${inverted ? 'text-white/50' : 'text-slate-400'}`}>Know someone who&apos;d actually use this? Share it.</p>
             <div className="flex gap-2">
-              {channels.includes('copy') && (
-                <button
-                  onClick={copyLink}
-                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
-                >
-                  {copied ? '✓ Copied' : '🔗 Copy link'}
-                </button>
-              )}
-              {channels.includes('x') && (
-                <a
-                  href={xShareUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
-                >
-                  Share on X
-                </a>
-              )}
-              {channels.includes('linkedin') && (
-                <a
-                  href={linkedinShareUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
-                >
-                  Share on LinkedIn
-                </a>
-              )}
+              <button
+                onClick={() => navigator.clipboard.writeText(buildShareUrl('copy_share')).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000) })}
+                className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${btnClass}`}
+              >
+                {copied ? '✓ Copied' : '🔗 Copy link'}
+              </button>
             </div>
           </div>
         )}

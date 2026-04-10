@@ -129,6 +129,9 @@ export const config: PageConfig = {
     { question: 'How does the free tier work?', answer: 'Your first 3 deals are completely free with full features. No credit card required. After that, Creator Pro is $19/month for unlimited deals.' },
     { question: 'Can I track deals from before I started using DealShield?', answer: 'Yes — you can manually add past deals to track their usage rights expiry dates. Great for catching brands that are still running your content past the agreed period.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'DealShield — UGC Creator Deal Manager | Contracts, Invoices & Usage Rights',
     description: 'Stop getting ghosted by brands. DealShield helps UGC creators create contracts, send invoices, and track content usage rights — all in one place. Free for 3 deals.',

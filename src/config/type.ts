@@ -98,6 +98,7 @@ export type PageConfig = {
     shareText?: string
     communityTagline?: string
     channels?: ('x' | 'linkedin' | 'copy')[]
+    referral?: boolean
   }
   seo: {
     title: string
