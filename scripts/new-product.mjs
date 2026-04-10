@@ -269,27 +269,67 @@ try {
   process.exit(1)
 }
 
-// ─── summary ─────────────────────────────────────────────────────────────────
+// ─── wrangler deploy ─────────────────────────────────────────────────────────
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://landing-factory-163.pages.dev'
 
+console.log('\n🚀  Deploying to Cloudflare Pages...\n')
+try {
+  execSync('npx wrangler pages deploy out --project-name=landing-factory --commit-dirty=true', {
+    cwd: ROOT,
+    stdio: 'inherit',
+    timeout: 120_000,
+  })
+} catch {
+  fail('DEPLOY_FAILED: wrangler pages deploy 실패 — 위 에러를 확인하세요')
+}
+
+// ─── healthcheck ─────────────────────────────────────────────────────────────
+
+console.log('\n🩺  Healthcheck...')
+const targetUrl = `${appUrl}/${slug}`
+let healthy = false
+for (let i = 0; i < 3; i++) {
+  if (i > 0) {
+    execSync('sleep 5')
+    console.log(`    retry ${i}/2...`)
+  } else {
+    execSync('sleep 3')
+  }
+  try {
+    const status = execSync(`curl -s -o /dev/null -w "%{http_code}" -L "${targetUrl}"`, {
+      encoding: 'utf8',
+    }).trim()
+    if (status === '200') {
+      healthy = true
+      console.log(`    ✅  ${targetUrl} → ${status}`)
+      break
+    } else {
+      console.log(`    ⚠️   ${targetUrl} → ${status}`)
+    }
+  } catch {
+    console.log(`    ⚠️   curl failed (attempt ${i + 1}/3)`)
+  }
+}
+if (!healthy) {
+  fail(`DEPLOY_FAILED: healthcheck ${targetUrl} → 200 응답 없음 (3회 실패)`)
+}
+
+// ─── summary ─────────────────────────────────────────────────────────────────
+
 console.log(`
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅  ${config.name} is ready for review
+✅  ${config.name} is live
 
 Files changed:
   • src/config/pages/${slug}.ts  ← new
   • src/config/index.ts          ← updated
 
-Preview URL (after push):
-  ${appUrl}/${slug}
-
-Review, then deploy:
+Live URL (confirmed 200):
+  ${targetUrl}
 
   git add src/config/pages/${slug}.ts src/config/index.ts
   git commit -m "feat: add ${slug} landing"
   git push
-
-Cloudflare Pages will auto-deploy on push.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `)
