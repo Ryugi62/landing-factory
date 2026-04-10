@@ -33,6 +33,7 @@ type Props = {
   shareText?: string
   shareChannels?: ('x' | 'linkedin' | 'copy')[]
   referral?: boolean
+  conversionKey?: string
 }
 
 type AttributionPayload = {
@@ -114,7 +115,7 @@ function buildShareUrl(ref: string): string {
   return url.toString()
 }
 
-export function WaitlistForm({ slug, cta, accent, compact = false, inverted = false, shareText, shareChannels, referral = false }: Props) {
+export function WaitlistForm({ slug, cta, accent, compact = false, inverted = false, shareText, shareChannels, referral = false, conversionKey }: Props) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -186,7 +187,7 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
       if (res.ok) {
         setStatus('success')
         setEmail('')
-        reportConversion(slug)
+        if (conversionKey) reportConversion(conversionKey)
         if (newRefCode) setMyRefCode(newRefCode)
       } else if (data.error === 'duplicate') {
         setStatus('duplicate')

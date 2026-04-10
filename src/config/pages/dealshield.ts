@@ -137,4 +137,7 @@ export const config: PageConfig = {
     description: 'Stop getting ghosted by brands. DealShield helps UGC creators create contracts, send invoices, and track content usage rights — all in one place. Free for 3 deals.',
     keywords: ['ugc creator tools', 'ugc contract template', 'content creator invoice', 'brand deal management', 'usage rights tracking', 'ugc creator software'],
   },
+  conversions: {
+    primary: 'dealshield_waitlist_signup',
+  },
 }

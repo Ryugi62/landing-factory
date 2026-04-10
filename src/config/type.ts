@@ -106,4 +106,8 @@ export type PageConfig = {
     ogDescription?: string
     keywords: string[]
   }
+  conversions?: {
+    primary: string
+    secondary?: string[]
+  }
 }

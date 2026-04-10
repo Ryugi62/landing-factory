@@ -85,5 +85,9 @@
     "title": "ExampleProduct — Short SEO Title",
     "description": "One or two sentence SEO description. Include main keywords naturally.",
     "keywords": ["primary keyword", "secondary keyword", "tertiary keyword"]
+  },
+  "conversions": {
+    "primary": "{slug}_waitlist_signup",
+    "secondary": []
   }
 }
