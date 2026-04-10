@@ -11,9 +11,10 @@ import { config as mealforge } from './pages/mealforge'
 import { config as dealshield } from './pages/dealshield'
 import { config as churnguard } from './pages/churnguard'
 import { config as challengepulse } from './pages/challengepulse'
+import { config as sponsorkit } from './pages/sponsorkit'
 
 // 새 제품 추가: import 하고 아래 배열에 추가
-export const ALL_CONFIGS: PageConfig[] = [datemind, slotfill, declog, flowkit, reportflow, repurpose_os, scope_lock, reviewdraft, mealforge, dealshield, churnguard, challengepulse]
+export const ALL_CONFIGS: PageConfig[] = [datemind, slotfill, declog, flowkit, reportflow, repurpose_os, scope_lock, reviewdraft, mealforge, dealshield, churnguard, challengepulse, sponsorkit]
 
 export function getConfigBySlug(slug: string): PageConfig | undefined {
   return ALL_CONFIGS.find((c) => c.slug === slug)
