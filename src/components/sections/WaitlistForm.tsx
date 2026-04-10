@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import type { AccentClasses } from '@/lib/accent'
 import { generateRefCode } from '@/lib/referral'
+import { reportConversion } from '@/lib/gtag'
 
 declare global {
   interface Window {
@@ -185,6 +186,7 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
       if (res.ok) {
         setStatus('success')
         setEmail('')
+        reportConversion(slug)
         if (newRefCode) setMyRefCode(newRefCode)
       } else if (data.error === 'duplicate') {
         setStatus('duplicate')
