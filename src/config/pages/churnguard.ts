@@ -133,6 +133,9 @@ export const config: PageConfig = {
     { question: 'Can I customize the recovery emails?', answer: 'Yes. We provide battle-tested templates that work immediately, but you can fully customize subject lines, body copy, timing intervals, and sender name to match your brand.' },
     { question: 'What if I cancel ChurnGuard?', answer: 'Recovery automations stop immediately. No penalty, no contracts, no lock-in. All your configuration data is deleted within 30 days.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'ChurnGuard — Affordable Failed Payment Recovery for Indie SaaS',
     description: 'Stop losing 9% of your MRR to failed payments. Smart dunning for indie SaaS founders — connect Stripe, recover revenue automatically. $9/month.',

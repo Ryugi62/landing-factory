@@ -89,6 +89,9 @@ export const config: PageConfig = {
     { question: 'Can I edit the clips before posting?', answer: 'Yes. Preview every clip, caption, and thumbnail. Edit anything or approve as-is. Nothing posts without your approval.' },
     { question: 'Does it post directly to my accounts?', answer: 'Yes. Connect TikTok, Instagram, Twitter/X, LinkedIn, and YouTube. Posts go out at your scheduled times automatically.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'Repurpose OS — Repurpose Videos to Every Platform Automatically',
     description: 'Upload one video and let AI create platform-perfect content for TikTok, Instagram Reels, and Twitter. Auto-scheduling included.',

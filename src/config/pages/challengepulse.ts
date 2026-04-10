@@ -134,6 +134,9 @@ export const config: PageConfig = {
     { question: 'Will this actually improve completion rates?', answer: 'The research is clear: challenge format gets 40-60% completion vs 5-15% for self-paced courses. Daily missions, deadlines, and accountability are the structural difference. Results vary by course and audience.' },
     { question: 'What does the free plan include?', answer: 'One challenge with up to 50 participants, basic progress tracking, and email reminders. Enough to test the format with your audience before upgrading.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'ChallengePulse — Turn Courses Into High-Completion Challenges',
     description: 'Convert your online course into a 3-21 day challenge with daily missions, deadlines, and accountability. 87% of course students drop out. Challenge format gets 60% completion. No platform migration needed.',

@@ -136,6 +136,9 @@ export const config: PageConfig = {
     { question: 'How does the AI builder work?', answer: 'Describe what you want in plain English. FlowKit uses Claude to generate the automation code, runs a dry-run test, and shows you the output before deploying.' },
     { question: 'Can my team use it without coding?', answer: 'Yes. The AI builder handles code generation. Team members can monitor, trigger, and manage automations from the dashboard without writing code.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'FlowKit — Developer Automation Hub | Zapier Alternative',
     description: 'Replace Zapier, n8n, and scattered cron jobs with one AI-powered automation platform. Self-hostable, developer-first, unlimited runs.',

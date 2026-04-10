@@ -136,6 +136,9 @@ export const config: PageConfig = {
     { question: 'What if a customer had a bad experience?', answer: 'ReviewDraft detects potential negative signals (returns, complaints) and skips those customers automatically. You only ask happy buyers.' },
     { question: 'How is the send timing determined?', answer: 'The AI calculates the optimal window based on product category and shipping timeline. Skincare products get asked later (time to try), while accessories get asked sooner.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'ReviewDraft — AI Review Request Tool for Shopify Sellers',
     description: 'Get more product reviews with AI-personalized review request emails sent at the perfect time. Built for Shopify sellers.',

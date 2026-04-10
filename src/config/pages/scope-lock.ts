@@ -136,6 +136,9 @@ export const config: PageConfig = {
     { question: 'Can I customize the SOW template?', answer: 'Yes. Start with our generated SOW, then edit any section. Save as your template for future projects.' },
     { question: 'Is this only for developers?', answer: 'No. Scope Lock works for any project-based freelancer — designers, writers, consultants, marketers, video editors, and more.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'Scope Lock — AI Scope Documentation for Freelancers',
     description: 'Catch contract blind spots before you sign. Scope Lock detects vague boundaries in client briefs and drafts airtight SOW documents in minutes.',

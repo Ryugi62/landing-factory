@@ -136,6 +136,9 @@ export const config: PageConfig = {
     { question: 'What dating apps does the profile optimizer support?', answer: 'Tinder, Hinge, Bumble, and OkCupid. The AI tailors your bio to each platform\'s style and algorithm.' },
     { question: 'Is this only for men?', answer: 'No. DateMind works for everyone regardless of gender or orientation. Scenarios adapt to your preferences.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'DateMind — AI Dating Coach',
     description: 'AI-powered dating coach. Practice real scenarios, analyze messages, and optimize your dating profile.',

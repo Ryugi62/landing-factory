@@ -136,6 +136,9 @@ export const config: PageConfig = {
     { question: 'How does AI know what counts as a decision?', answer: 'Declog looks for PR descriptions that mention alternatives, trade-offs, or "we chose X because." You can also flag any PR manually.' },
     { question: 'Is our code visible to Declog?', answer: 'No. Declog only reads PR titles, descriptions, and comments — never your source code. All data is encrypted at rest.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'Declog — Architecture Decision Record Tool for Engineering Teams',
     description: 'Automatically capture and search why your team made each technical decision. GitHub-connected ADR software for CTOs and engineering managers.',

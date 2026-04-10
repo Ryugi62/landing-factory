@@ -140,6 +140,9 @@ export const config: PageConfig = {
     { question: 'What if multiple people respond at the same time?', answer: 'First click wins. Everyone else gets a polite "this slot has been filled" message. Zero conflicts.' },
     { question: 'How do I know if it\'s worth the cost?', answer: 'The recovery dashboard shows exactly how much revenue SlotFill saved you this month. Most users see ROI within the first week.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'SlotFill — No-Show Recovery Software for Salons, Clinics & Gyms',
     description: 'Automatically fill cancelled appointments by texting your waitlist in seconds. SlotFill turns no-shows into revenue.',

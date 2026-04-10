@@ -136,6 +136,9 @@ export const config: PageConfig = {
     { question: 'What if the data source is temporarily down?', answer: 'ReportFlow retries automatically with exponential backoff. If delivery fails, you get an alert and can resend with one click.' },
     { question: 'Can clients access a live dashboard instead?', answer: 'Yes. Pro and Agency plans include a client portal with live dashboards. Clients can also download the latest PDF anytime.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'ReportFlow — Automated Report Delivery for Agencies & Data Teams',
     description: 'Stop manually exporting PDFs. ReportFlow connects your data sources and automatically delivers branded client reports on any schedule.',

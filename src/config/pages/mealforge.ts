@@ -138,6 +138,9 @@ export const config: PageConfig = {
     { question: 'Can I customize the generated plans?', answer: 'Yes. Edit any meal, swap recipes, adjust portions. The AI gives you a solid starting point — you have full control over the final plan.' },
     { question: 'How is this different from Trainerize or TrueCoach?', answer: 'Those are full coaching platforms ($30–100/mo) with exercise tracking, messaging, and more. MealForge does one thing — meal plans — and does it in 30 seconds instead of 30 minutes. Use it alongside your existing tools.' },
   ],
+  sharing: {
+    referral: true,
+  },
   seo: {
     title: 'MealForge — AI Meal Plans for Fitness Coaches | 30 Seconds Per Client',
     description: 'MealForge helps fitness coaches create personalized, macro-balanced meal plans in 30 seconds. Custom branding, grocery lists, and PDF export. Free to start.',
