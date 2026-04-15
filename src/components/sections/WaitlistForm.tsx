@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import type { AccentClasses } from '@/lib/accent'
+import { captureCurrentAttribution, getAttribution } from '@/lib/attribution'
 import { generateRefCode } from '@/lib/referral'
 import { reportConversion } from '@/lib/gtag'
 
@@ -34,77 +35,11 @@ type Props = {
   shareChannels?: ('x' | 'linkedin' | 'copy')[]
   referral?: boolean
   conversionKey?: string
-}
-
-type AttributionPayload = {
-  landing_slug: string
-  referral_source?: string
-  utm_source?: string
-  utm_medium?: string
-  utm_campaign?: string
-  utm_content?: string
-  utm_term?: string
-  gclid?: string
-  ref_code?: string
+  directUrl?: string
 }
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''
-
-function readParam(params: URLSearchParams, key: string): string | undefined {
-  const value = params.get(key)?.trim()
-  return value ? value : undefined
-}
-
-function summarizeAttribution({
-  utm_source,
-  utm_medium,
-  utm_campaign,
-  utm_content,
-  utm_term,
-  gclid,
-  ref_code,
-}: Omit<AttributionPayload, 'landing_slug'>): string | undefined {
-  if (utm_source || utm_medium || utm_campaign || utm_content || utm_term || gclid) {
-    const parts = [
-      'utm',
-      utm_source ?? '(none)',
-      utm_medium ?? '(none)',
-      utm_campaign ?? '(none)',
-    ]
-    if (utm_content) parts.push(`content=${utm_content}`)
-    if (utm_term) parts.push(`term=${utm_term}`)
-    if (gclid) parts.push(`gclid=${gclid}`)
-    return parts.join(':')
-  }
-
-  if (ref_code) return `ref:${ref_code}`
-  return undefined
-}
-
-function getAttribution(landingSlug: string): AttributionPayload {
-  const params = new URLSearchParams(window.location.search)
-  const attribution: AttributionPayload = {
-    landing_slug: landingSlug,
-    utm_source: readParam(params, 'utm_source'),
-    utm_medium: readParam(params, 'utm_medium'),
-    utm_campaign: readParam(params, 'utm_campaign'),
-    utm_content: readParam(params, 'utm_content'),
-    utm_term: readParam(params, 'utm_term'),
-    gclid: readParam(params, 'gclid'),
-    ref_code: readParam(params, 'ref'),
-  }
-
-  attribution.referral_source = summarizeAttribution(attribution)
-  if (attribution.referral_source) return attribution
-
-  if (document.referrer) {
-    try { attribution.referral_source = `referrer:${new URL(document.referrer).hostname}` }
-    catch { attribution.referral_source = `referrer:${document.referrer}` }
-  }
-
-  return attribution
-}
 
 function buildShareUrl(ref: string): string {
   const url = new URL(window.location.href)
@@ -115,7 +50,7 @@ function buildShareUrl(ref: string): string {
   return url.toString()
 }
 
-export function WaitlistForm({ slug, cta, accent, compact = false, inverted = false, shareText, shareChannels, referral = false, conversionKey }: Props) {
+export function WaitlistForm({ slug, cta, accent, compact = false, inverted = false, shareText, shareChannels, referral = false, conversionKey, directUrl }: Props) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -136,6 +71,10 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
       'expired-callback': () => setTurnstileToken(null),
     })
   }, [])
+
+  useEffect(() => {
+    captureCurrentAttribution(slug)
+  }, [slug])
 
   useEffect(() => {
     if (!TURNSTILE_SITE_KEY) return
@@ -208,6 +147,19 @@ export function WaitlistForm({ slug, cta, accent, compact = false, inverted = fa
       window.turnstile.reset(widgetIdRef.current)
       setTurnstileToken(null)
     }
+  }
+
+  if (directUrl) {
+    return (
+      <a
+        href={directUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`inline-block rounded-full px-8 ${compact ? 'py-2.5 text-sm' : 'py-3.5 text-base'} font-semibold transition-colors whitespace-nowrap ${accent.button}`}
+      >
+        {cta}
+      </a>
+    )
   }
 
   if (status === 'success') {

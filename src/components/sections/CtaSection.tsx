@@ -1,5 +1,6 @@
 import type { PageConfig } from '@/config/type'
 import type { AccentClasses } from '@/lib/accent'
+import { getDefaultConversionKey } from '@/lib/gtag'
 import { WaitlistForm } from './WaitlistForm'
 
 type Props = {
@@ -23,6 +24,7 @@ function CtaReasons({ reasons, inverted, accent }: { reasons?: string[]; inverte
 export function CtaSection({ config, accent }: Props) {
   const { variant } = config
   const reasons = config.cta.reasons
+  const conversionKey = config.conversions?.primary ?? getDefaultConversionKey(config.slug)
 
   if (variant === 'warm') {
     return (
@@ -31,7 +33,7 @@ export function CtaSection({ config, accent }: Props) {
         <p className={`${accent.ctaSubtext} mb-6 max-w-md mx-auto`}>{config.cta.subtitle}</p>
         <CtaReasons reasons={reasons} inverted accent={accent} />
         <div className="flex justify-center">
-          <WaitlistForm slug={config.slug} cta={config.hero.cta} accent={accent} inverted shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} referral={config.sharing?.referral} conversionKey={config.conversions?.primary} />
+          <WaitlistForm slug={config.slug} cta={config.hero.cta} accent={accent} inverted shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} referral={config.sharing?.referral} conversionKey={conversionKey} directUrl={config.hero.ctaUrl} />
         </div>
       </section>
     )
@@ -44,7 +46,7 @@ export function CtaSection({ config, accent }: Props) {
         <p className="text-slate-400 mb-6 max-w-md mx-auto">{config.cta.subtitle}</p>
         <CtaReasons reasons={reasons} inverted accent={accent} />
         <div className="flex justify-center">
-          <WaitlistForm slug={config.slug} cta={config.hero.cta} accent={accent} inverted shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} referral={config.sharing?.referral} conversionKey={config.conversions?.primary} />
+          <WaitlistForm slug={config.slug} cta={config.hero.cta} accent={accent} inverted shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} referral={config.sharing?.referral} conversionKey={conversionKey} directUrl={config.hero.ctaUrl} />
         </div>
       </section>
     )
@@ -57,7 +59,7 @@ export function CtaSection({ config, accent }: Props) {
         <p className="text-slate-400 mb-6 max-w-md mx-auto">{config.cta.subtitle}</p>
         <CtaReasons reasons={reasons} inverted accent={accent} />
         <div className="flex justify-center">
-          <WaitlistForm slug={config.slug} cta={config.hero.cta} accent={accent} inverted shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} referral={config.sharing?.referral} conversionKey={config.conversions?.primary} />
+          <WaitlistForm slug={config.slug} cta={config.hero.cta} accent={accent} inverted shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} referral={config.sharing?.referral} conversionKey={conversionKey} directUrl={config.hero.ctaUrl} />
         </div>
       </section>
     )
@@ -69,7 +71,7 @@ export function CtaSection({ config, accent }: Props) {
       <p className="text-slate-600 mb-6 max-w-md mx-auto">{config.cta.subtitle}</p>
       <CtaReasons reasons={reasons} accent={accent} />
       <div className="flex justify-center">
-        <WaitlistForm slug={config.slug} cta={config.hero.cta} accent={accent} shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} referral={config.sharing?.referral} conversionKey={config.conversions?.primary} />
+        <WaitlistForm slug={config.slug} cta={config.hero.cta} accent={accent} shareText={config.sharing?.shareText} shareChannels={config.sharing?.channels} referral={config.sharing?.referral} conversionKey={conversionKey} directUrl={config.hero.ctaUrl} />
       </div>
     </section>
   )

@@ -15,7 +15,8 @@ export const config: PageConfig = {
     title: 'Stop getting ghosted.',
     titleHighlight: 'Get paid for every frame.',
     subtitle: 'Contracts, invoices, and usage rights tracking — built for UGC creators who are tired of DM deals and disappearing brands.',
-    cta: 'Protect your next deal — free for 3 deals',
+    cta: 'Get started free — 3 deals on us',
+    ctaUrl: 'https://dealshield-beryl.vercel.app/signup',
     layout: 'split',
   },
   trustBadges: ['Built for UGC creators', 'Not legal advice — pro templates', 'No credit card required'],
@@ -79,7 +80,7 @@ export const config: PageConfig = {
   ],
   cta: {
     title: 'Ready to protect your next brand deal?',
-    subtitle: 'Join the waitlist. Your first 3 deals are completely free — no credit card required.',
+    subtitle: 'Your first 3 deals are completely free — no credit card required.',
     reasons: ['Free for 3 deals', '60-second contracts', 'Usage rights tracking'],
   },
   productPreview: {

@@ -26,6 +26,7 @@ export type PageConfig = {
     titleHighlight: string
     subtitle: string
     cta: string
+    ctaUrl?: string
     layout?: 'centered' | 'split'
     beforeAfter?: {
       before: string

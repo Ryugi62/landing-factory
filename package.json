@@ -15,7 +15,8 @@
     "ads:validate": "node scripts/validate-google-ads-output.mjs",
     "ads:prepare": "node scripts/prepare-google-ads-package.mjs",
     "ads:launch": "node scripts/launch-google-ads-campaign.mjs",
-    "ads:performance": "node scripts/get-google-ads-performance.mjs"
+    "ads:performance": "node scripts/get-google-ads-performance.mjs",
+    "ads:export-conversions": "node scripts/export-waitlist-conversions.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.101.1",
